@@ -82,6 +82,12 @@
 		H.change_stat("perception", 2) //7 points weighted, same as MAA. They get temp buffs in the woods instead of in the city.
 		H.change_stat("endurance", 1)
 		H.change_stat("speed", 2)
+		if(H.age == AGE_OLD)
+			H.mind.adjust_skillrank(/datum/skill/misc/tracking, 1, TRUE)
+			H.mind.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
+			H.mind.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
+			H.change_stat("speed", 1)
+			H.change_stat("perception", 2)
 		H.verbs |= /mob/proc/haltyell
 	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_WOODSMAN, TRAIT_GENERIC)
@@ -129,6 +135,12 @@
 		H.change_stat("constitution", 1)
 		H.change_stat("endurance", 1)
 		H.change_stat("strength", 2)
+		if(H.age == AGE_OLD)
+			H.change_stat("constitution", 2)
+			H.change_stat("strength", 1)
+			H.mind.adjust_skillrank(/datum/skill/misc/tracking, 1, TRUE)
+			H.mind.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
+			H.mind.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
 		H.verbs |= /mob/proc/haltyell
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_WOODSMAN, TRAIT_GENERIC)
