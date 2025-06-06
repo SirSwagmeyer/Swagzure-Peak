@@ -66,6 +66,11 @@
 			H.change_stat("perception", 1)
 			H.change_stat("endurance", 1)
 			H.change_stat("speed", 3)
+			if(H.age == AGE_OLD)
+				H.change_stat("speed", 1)
+				H.change_stat("perception", 1)
+				H.mind.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
+				H.mind.adjust_skillrank(/datum/skill/craft/traps, 1, TRUE)
 
 		if("Thief")
 			to_chat(H, span_warning("You are a scoundrel and a thief. A master in getting into places you shouldn't be and taking things that aren't rightfully yours."))
@@ -104,6 +109,11 @@
 			H.change_stat("perception", 1)
 			H.change_stat("endurance", 1)
 			H.change_stat("speed", 3)
+			if(H.age == AGE_OLD)
+				H.change_stat("speed", 1)
+				H.mind.adjust_skillrank(/datum/skill/misc/sneaking, 1, TRUE)
+				H.mind.adjust_skillrank(/datum/skill/misc/stealing, 1, TRUE)
+				H.mind.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
 			H.grant_language(/datum/language/thievescant)
 
 		if("Bard")
@@ -160,6 +170,9 @@
 			H.change_stat("intelligence", 2)
 			H.change_stat("endurance", 1)
 			H.change_stat("speed", 2)
+			if(H.age == AGE_OLD)
+				H.mind.adjust_skillrank(/datum/skill/misc/music, 1, TRUE)
+				H.change_stat("speed", 1)
 
 		if("Swashbuckler")
 			to_chat(H, span_warning("You are a daring rogue of the seas! Swashbucklers wield agile swordplay and acrobatic prowess - fighting dirty to outmaneuver foes with flair."))
@@ -195,3 +208,7 @@
 			H.change_stat("strength", 1)
 			H.change_stat("endurance", 1)
 			H.change_stat("speed", 2)
+			if(H.age == AGE_OLD)
+				H.change_stat("strength", 1)
+				H.change_stat("endurance", 1)
+				H.mind.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE) // Ridiculously easy to grind swimming anyway
