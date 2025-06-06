@@ -36,5 +36,8 @@
 		H.change_stat("constitution", 1)
 		H.change_stat("strength", 1)
 		H.change_stat("fortune", 2)
+		if(H.age == AGE_OLD)
+			H.change_stat("fortune", 1) // REAL GAMBLERS NEVER QUIT
+			H.mind.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE) 
 		if(H.patron.type == /datum/patron/divine/xylix)
 			ADD_TRAIT(H, TRAIT_CRACKHEAD, TRAIT_GENERIC)
