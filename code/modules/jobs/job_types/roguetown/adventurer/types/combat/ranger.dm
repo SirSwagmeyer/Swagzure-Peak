@@ -66,6 +66,15 @@
 					beltl = /obj/item/quiver/bolts
 			H.change_stat("perception", 3)
 			H.change_stat("speed", 2)
+			if(H.age == AGE_OLD)
+				H.mind.adjust_skillrank(/datum/skill/craft/tanning, 1, TRUE)
+				H.mind.adjust_skillrank(/datum/skill/labor/fishing, 1, TRUE)
+				H.mind.adjust_skillrank(/datum/skill/labor/butchering, 1, TRUE)
+				H.mind.adjust_skillrank(/datum/skill/craft/traps, 1, TRUE)
+				H.mind.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
+				H.mind.adjust_skillrank(/datum/skill/misc/tracking, 1, TRUE)
+				H.change_stat("perception", 2) //Cancels out age debuff
+				H.change_stat("speed", 1)
 
 		if("Assassin")
 			to_chat(H, span_warning("You've lived the life of a hired killer and have spent your time training with blades and crossbows alike."))
@@ -99,6 +108,10 @@
 			H.change_stat("perception", 2)
 			H.change_stat("speed", 2)
 			H.change_stat("endurance", 1)
+			if(H.age == AGE_OLD)
+				H.mind.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
+				H.mind.adjust_skillrank(/datum/skill/misc/sneaking, 1, TRUE)
+				H.change_stat("speed", 1)
 			H.grant_language(/datum/language/thievescant)
 			H.set_blindness(0)
 
@@ -130,6 +143,11 @@
 			H.change_stat("constitution", 1)
 			H.change_stat("strength", 2)
 			H.change_stat("intelligence", 2)
+			if(H.age == AGE_OLD)
+				H.change_stat("strength", -1) // Extra debuff because you get master alchemy
+				H.mind.adjust_skillrank(/datum/skill/craft/traps, 1, TRUE)
+				H.mind.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
+				H.mind.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
 			H.set_blindness(0)
 
 		if("Biome Wanderer")
@@ -198,3 +216,8 @@
 			H.change_stat("perception", 2) // Look far, but not too far.
 			H.change_stat("endurance", 2)
 			H.change_stat("intelligence", 1) // Adaptive to their surroundings.
+			if(H.age == AGE_OLD)
+				H.change_stat("perception", 2) // to keep looking far
+				H.mind.adjust_skillrank(/datum/skill/misc/tracking, 2, TRUE) //Wizened geezah
+				H.mind.adjust_skillrank(/datum/skill/labor/butchering, 1, TRUE) // Spent a lot of time lookin at roadkill
+
