@@ -55,6 +55,9 @@
 			H.change_stat("perception", 2)
 			H.change_stat("speed", 1)
 			H.change_stat("intelligence", 2)
+			if(H.age == AGE_OLD)
+				H.mind.adjust_skillrank(/datum/skill/misc/reading, 2, TRUE)
+				H.change_stat("perception", 2) 
 			H.set_blindness(0)
 
 		if("Knight Errant")
@@ -145,6 +148,11 @@
 			H.change_stat("constitution", 1)
 			H.change_stat("endurance", 1)
 			H.change_stat("intelligence", 1)
+			if(H.age == AGE_OLD)
+				H.mind.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE) //Years of wearing armor as a knight builds endurance
+				H.mind.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
+				H.change_stat("constitution", 1)
+				H.change_stat("endurance", 2)
 
 		if("Squire Errant")
 			to_chat(H, span_warning("You are a squire who has traveled far in search of a master to train you and a lord to knight you."))
