@@ -56,3 +56,7 @@
 		H.change_stat("constitution", 2)
 		H.change_stat("speed", -1)
 		H.change_stat("fortune", 1)
+		if(H.age == AGE_OLD)
+			H.mind.adjust_skillrank(/datum/skill/craft/blacksmithing, 1, TRUE)
+			H.mind.adjust_skillrank(/datum/skill/craft/armorsmithing, 1, TRUE)
+			H.mind.adjust_skillrank(/datum/skill/craft/weaponsmithing, 1, TRUE)
