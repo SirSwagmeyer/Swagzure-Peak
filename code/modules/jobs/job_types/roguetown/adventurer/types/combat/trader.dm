@@ -49,6 +49,10 @@
 			H.change_stat("intelligence", 3)
 			H.change_stat("perception", 2)
 			H.change_stat("speed", 1)
+			if(H.age == AGE_OLD)
+				H.change_stat("perception", 2)
+				H.mind.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
+				H.mind.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
 
 		if("Brewer")
 			to_chat(H, span_warning("You make your coin peddling imported alcohols from all over the world, though you're no stranger to the craft, and have experience brewing your own ale in a pinch."))
@@ -77,6 +81,9 @@
 			H.change_stat("perception", 1)
 			H.change_stat("strength", 1)
 			H.change_stat("constitution", 1)
+			if(H.age == AGE_OLD)
+				H.mind.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
+				H.mind.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
 
 		if ("Jeweler")
 			to_chat(H, span_warning("You make your coin peddling exotic jewelry, gems, and shiny things."))
@@ -106,6 +113,9 @@
 			H.change_stat("perception", 1)
 			H.change_stat("strength", 1)
 			H.change_stat("endurance", 1)
+			if(H.age == AGE_OLD)
+				H.mind.adjust_skillrank(/datum/skill/labor/mining, 1, TRUE)
+				H.mind.adjust_skillrank(/datum/skill/craft/smelting, 1, TRUE)
 
 		if ("Doomsayer")
 			to_chat(H, span_warning("THE WORLD IS ENDING!!! At least, that's what you want your clients to believe. You'll offer them a safe place in the new world, of course - built by yours truly."))
@@ -136,6 +146,10 @@
 			H.change_stat("perception", 1)
 			H.change_stat("strength", 1)
 			H.change_stat("constitution", 1)
+			if(H.age == AGE_OLD)
+				H.mind.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
+				H.mind.adjust_skillrank(/datum/skill/labor/lumberjacking, 1, TRUE)
+				H.change_stat("constitution", 1)
 
 		if ("Scholar")
 			to_chat(H, span_warning("You are a scholar traveling the world in order to write a book about your ventures. You trade in stories and tales of your travels."))
@@ -164,6 +178,9 @@
 			H.change_stat("perception", 1)
 			H.change_stat("speed", 1)
 			H.change_stat("endurance", 1)
+			if(H.age == AGE_OLD)
+				H.change_stat("intelligence", 2)
+				H.mind.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
 
 		if ("Harlequin")
 			to_chat(H, span_warning ("You are a travelling entertainer - a jester by trade. Where you go, chaos follows - and mischief is made."))
@@ -190,6 +207,10 @@
 			H.change_stat("perception", 1)
 			H.change_stat("endurance", 1)
 			H.change_stat("speed", 2)
+			if(H.age == AGE_OLD)
+				H.change_stat("speed", 1) // Still whimsical
+				H.mind.adjust_skillrank(/datum/skill/misc/music, 1, TRUE)
+				H.mind.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
 			var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman")
 			var/weapon_choice = input("Choose your instrument.", "TAKE UP ARMS") as anything in weapons
 			H.set_blindness(0)
