@@ -88,6 +88,9 @@
 	H.change_stat("intelligence", 1)
 	H.change_stat("constitution", 1)
 	H.change_stat("endurance", 1)
+	if(H.age == AGE_OLD)
+		H.mind.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
+		H.mind.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE)
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord		//Bit worse shirt protection than the archer
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale			//Makes up for worse shirt protection with kinda better armor protection
@@ -158,6 +161,9 @@
 	H.change_stat("endurance", 1) // seems kinda lame but remember guardsman bonus!!
 	H.change_stat("perception", 2)
 	H.change_stat("speed", 2)
+	if(H.age == AGE_OLD)
+		H.change_stat("speed", 2) // appeasing dodge chuds
+		H.change_stat("perception", 2) // cancel out aim debuff 
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord			// Cant wear chainmail anymoooree
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded		//Helps against arrows; makes sense for a ranged-type role.
@@ -228,6 +234,9 @@
 	H.change_stat("constitution", 2) 
 	H.change_stat("endurance", 2) // Your name is speed, and speed is running.
 	H.change_stat("intelligence", 1) // No strength to account for the nominally better weapons. We'll see.
+	if(H.age == AGE_OLD)
+		H.mind.adjust_skillrank(/datum/skill/misc/tracking, 1, TRUE)
+		H.mind.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord		//Bit worse shirt protection than the archer -- as foot soldier.
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale			//Makes up for worse shirt protection with kinda better armor protection
