@@ -28,6 +28,10 @@
 		H.mind.adjust_skillrank(/datum/skill/craft/traps, 1, TRUE)
 		H.mind.adjust_skillrank(/datum/skill/labor/lumberjacking, 3, TRUE)
 		H.mind.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
+		if(H.age == AGE_OLD)
+			H.mind.adjust_skillrank(/datum/skill/craft/carpentry, 1, TRUE)
+			H.mind.adjust_skillrank(/datum/skill/labor/lumberjacking, 1, TRUE)
+
 	head = /obj/item/clothing/head/roguetown/hatfur
 	if(prob(50))
 		head = /obj/item/clothing/head/roguetown/hatblu
@@ -53,3 +57,4 @@
 	H.change_stat("constitution", 1)
 	H.change_stat("intelligence", 1)
 	H.change_stat("speed", -1)
+
