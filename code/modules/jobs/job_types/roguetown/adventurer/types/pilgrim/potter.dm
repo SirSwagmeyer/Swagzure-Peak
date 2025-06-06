@@ -21,6 +21,9 @@
 		H.mind.adjust_skillrank(/datum/skill/craft/masonry, 2, TRUE) // They probably have some insight in carpentry and masonry.
 		H.mind.adjust_skillrank(/datum/skill/misc/reading, 2, TRUE)
 		H.mind.adjust_skillrank(/datum/skill/misc/ceramics, 5, TRUE)
+		if(H.age == AGE_OLD)
+			H.mind.adjust_skillrank(/datum/skill/craft/carpentry, 1, TRUE) 
+			H.mind.adjust_skillrank(/datum/skill/craft/masonry, 1, TRUE) 
 	head = /obj/item/clothing/head/roguetown/hatfur
 	if(prob(50))
 		head = /obj/item/clothing/head/roguetown/hatblu
