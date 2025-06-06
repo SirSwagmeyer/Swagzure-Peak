@@ -54,3 +54,8 @@
 	H.change_stat("endurance", 1)
 	H.change_stat("constitution", 1)
 	H.change_stat("perception", 1)
+	if(H.age == AGE_OLD)
+		H.mind.adjust_skillrank(/datum/skill/labor/lumberjacking, 1, TRUE)
+		H.change_stat("endurance", 2)
+		H.mind.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE) 
+
