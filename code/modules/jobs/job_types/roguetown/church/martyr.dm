@@ -489,6 +489,15 @@
 		H.change_stat("endurance", 3)
 		H.change_stat("intelligence", 1)
 		H.change_stat("perception", 1)
+		if(H.age == AGE_OLD)
+			H.change_stat("strength", 1)
+			H.change_stat("constitution", 2) // Cancel out old debuff
+			H.change_stat("endurance", 1) // Lug around big martyr sword for decades
+			H.change_stat("intelligence", -2) // Too zealous for the smart stuff
+			H.change_stat("speed", -1)
+			H.mind.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
+			H.mind.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
+			H.mind.adjust_skillrank(/datum/skill/misc/tracking, 1, TRUE)
 		H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 
 
