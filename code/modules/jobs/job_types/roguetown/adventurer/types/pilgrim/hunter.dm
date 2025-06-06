@@ -56,3 +56,7 @@
 		H.change_stat("intelligence", 1)
 		H.change_stat("perception", 3)
 		H.change_stat("speed", 1)
+		if(H.age == AGE_OLD)
+			H.mind.adjust_skillrank(/datum/skill/craft/tanning, 1, TRUE)
+			H.mind.adjust_skillrank(/datum/skill/labor/butchering, 1, TRUE)
+
