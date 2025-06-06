@@ -90,6 +90,12 @@
 			H.change_stat("endurance", 2)
 			H.change_stat("constitution", 2)
 			H.change_stat("speed", 1)
+			if(H.age == AGE_OLD)
+				H.mind.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE) // Wise ahh monk
+				H.mind.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
+				H.change_stat("strength", 1)
+				H.change_stat("endurance", 1)
+
 
 		if("Paladin")
 			to_chat(H, span_warning("A holy warrior. Where others of the clergy may have spent their free time studying scriptures, you have instead honed your skills with a blade."))
@@ -177,6 +183,10 @@
 			H.change_stat("strength", 2)
 			H.change_stat("constitution", 2)
 			H.change_stat("endurance", 1)
+			if(H.age == AGE_OLD)
+				H.change_stat("constitution", 1)
+				H.mind.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE)
+
 
 		if("Cantor")
 			H.set_blindness(0)
@@ -210,6 +220,9 @@
 			H.change_stat("strength", 1)
 			H.change_stat("endurance", 1)
 			H.change_stat("speed", 2)
+			if(H.age == AGE_OLD)
+				H.change_stat("speed", 1)
+				H.mind.adjust_skillrank(/datum/skill/misc/music, 2, TRUE)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery)
 			switch(H.patron?.type)
 				if(/datum/patron/old_god)
@@ -280,6 +293,10 @@
 			H.change_stat("endurance", 1)
 			H.change_stat("perception", 2)
 			H.change_stat("speed", 1)
+			if(H.age == AGE_OLD)
+				H.mind.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
+				H.change_stat("perception", 1)
+
 			switch(H.patron?.type)
 				if(/datum/patron/old_god)
 					cloak = /obj/item/clothing/cloak/psydontabard
