@@ -79,6 +79,12 @@
 			H.change_stat("strength", 2)
 			H.change_stat("endurance", 1)
 			H.change_stat("constitution", 2)
+			if(H.age == AGE_OLD)
+				H.change_stat("strength", 1)
+				H.change_stat("endurance", 1)
+				H.change_stat("constitution", 1)
+				H.mind.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
+				H.mind.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
 			belt = /obj/item/storage/belt/rogue/leather
 			backl = /obj/item/storage/backpack/rogue/satchel
 			beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
@@ -114,6 +120,10 @@
 			H.change_stat("strength", 1)
 			H.change_stat("endurance", 1)
 			H.change_stat("speed", 2)
+			if(H.age == AGE_OLD)
+				H.change_stat("speed", 2) //It's literally their whole thing
+				H.change_stat("intelligence", 1)
+				H.mind.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
 			armor = /obj/item/clothing/suit/roguetown/armor/leather
 			head = /obj/item/clothing/head/roguetown/duelhat
 			mask = /obj/item/clothing/mask/rogue/duelmask
@@ -171,6 +181,11 @@
 			H.change_stat("endurance", 1)
 			H.change_stat("constitution", 2)
 			H.change_stat("intelligence", -2)
+			if(H.age == AGE_OLD)
+				H.change_stat("endurance", 2) // Rhymes with grug
+				H.mind.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
+				H.mind.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
+				H.mind.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
 			if(should_wear_masc_clothes(H))
 				H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
 				head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
@@ -213,6 +228,11 @@
 			H.change_stat("endurance", 1)
 			H.change_stat("constitution", 1)
 			H.change_stat("intelligence", 1)
+			if(H.age == AGE_OLD)
+				H.change_stat("constitution", 2)
+				H.change_stat("intelligence", 1)
+				H.mind.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
+				H.mind.adjust_skillrank(/datum/skill/misc/tracking, 1, TRUE)
 			beltr = /obj/item/rogueweapon/sword/silver
 			backr = /obj/item/rogueweapon/sword
 			backl = /obj/item/storage/backpack/rogue/satchel/black
