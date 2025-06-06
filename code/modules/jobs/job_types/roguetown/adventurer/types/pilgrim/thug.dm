@@ -46,4 +46,10 @@
 	H.change_stat("constitution", 3)
 	H.change_stat("speed", -1)
 	H.change_stat("intelligence", -1)
+	if(H.age == AGE_OLD)
+		H.mind.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
+		H.mind.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
+		H.mind.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
+		H.change_stat("strength", 2)
+		H.change_stat("intelligence", -1) // Moar strength less smarty to balance out the age buff
 	H.grant_language(/datum/language/thievescant)
