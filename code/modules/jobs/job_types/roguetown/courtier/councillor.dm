@@ -49,3 +49,8 @@
 		H.change_stat("strength", -1)
 		H.change_stat("intelligence", 2)
 		H.change_stat("perception", 1)
+		if(H.age == AGE_OLD)
+			H.change_stat("perception", 3) // cancel out old debuff
+			H.mind.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
+
+
