@@ -93,6 +93,16 @@
 	H.change_stat("constitution", 1)
 	H.change_stat("perception", 1)		//Gets bow-skills, so give a SMALL tad of perception to aid in bow draw.
 	H.change_stat("endurance", 1)
+	if(H.age == AGE_OLD)
+		H.change_stat("perception", 2) // cancel out geezah status
+		H.change_stat("endurance", 2) // BEEN DOIN THIS FER YEARS YOUNGUN
+		H.mind.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
+		H.mind.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
+		H.mind.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
+		H.mind.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE)
+		H.mind.adjust_skillrank(/datum/skill/combat/crossbows, 1, TRUE)
+		H.mind.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)	
+
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/movemovemove)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/takeaim)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/onfeet)
