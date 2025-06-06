@@ -48,3 +48,8 @@
 	H.change_stat("intelligence", 2)
 	H.change_stat("constitution", 2) // Cheese diet.
 	H.change_stat("endurance", 1)
+	if(H.age == AGE_OLD)
+		H.change_stat("constitution", 2) // Cheese diet!!!! GARHAHHH
+		H.mind.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
+
+
