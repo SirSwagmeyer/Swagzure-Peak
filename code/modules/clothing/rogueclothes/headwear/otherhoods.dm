@@ -8,6 +8,7 @@
 	icon = 'icons/roguetown/clothing/head.dmi'
 	body_parts_covered = HEAD|HAIR|EARS|NECK
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+	alternate_worn_layer  = 8.9 //On top of helmet
 	dynamic_hair_suffix = ""
 	max_integrity = 80
 	armor = ARMOR_HEAD_CLOTHING
@@ -45,6 +46,8 @@
 	icon_state = "nochood"
 	item_state = "nochood"
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
+	alternate_worn_layer  = 8.9 //On top of helmet
+
 	dynamic_hair_suffix = ""
 	sewrepair = TRUE
 
@@ -55,6 +58,7 @@
 	icon_state = "necrahood"
 	item_state = "necrahood"
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
+	alternate_worn_layer  = 8.9 //On top of helmet
 	dynamic_hair_suffix = ""
 	sewrepair = TRUE
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
@@ -69,6 +73,7 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi' //Overrides slot icon behavior
 	body_parts_covered = NECK|MOUTH //Jaw bone
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+	alternate_worn_layer  = 8.9 //On top of helmet
 	flags_inv = HIDEEARS|HIDESNOUT|HIDEHAIR|HIDEFACIALHAIR
 	dynamic_hair_suffix = ""
 	sewrepair = TRUE
@@ -96,6 +101,7 @@
 	item_state = "necromhood"
 	body_parts_covered = NECK
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
+	alternate_worn_layer  = 8.9 //On top of helmet
 	dynamic_hair_suffix = ""
 	sewrepair = TRUE
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
@@ -110,6 +116,7 @@
 	sewrepair = TRUE
 	color = "#999999"
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+	alternate_worn_layer  = 8.9 //On top of helmet
 	//dropshrink = 0.75
 
 /obj/item/clothing/head/roguetown/menacing/bandit
