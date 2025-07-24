@@ -7,7 +7,7 @@
 	item_state = "antlerhood"
 	icon = 'icons/roguetown/clothing/head.dmi'
 	body_parts_covered = HEAD|HAIR|EARS|NECK
-	slot_flags = ITEM_SLOT_HEAD
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	dynamic_hair_suffix = ""
 	max_integrity = 80
 	armor = ARMOR_HEAD_CLOTHING
@@ -57,6 +57,8 @@
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	dynamic_hair_suffix = ""
 	sewrepair = TRUE
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+
 /obj/item/clothing/head/roguetown/necramask
 	name = "death mask"
 	desc = "A hood with a decorated jaw bone at the chin, normally worn by some followers of Necra as a form of devotion"
@@ -96,6 +98,7 @@
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	dynamic_hair_suffix = ""
 	sewrepair = TRUE
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 
 /obj/item/clothing/head/roguetown/menacing
 	name = "sack hood"
@@ -106,6 +109,7 @@
 	dynamic_hair_suffix = ""
 	sewrepair = TRUE
 	color = "#999999"
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	//dropshrink = 0.75
 
 /obj/item/clothing/head/roguetown/menacing/bandit
