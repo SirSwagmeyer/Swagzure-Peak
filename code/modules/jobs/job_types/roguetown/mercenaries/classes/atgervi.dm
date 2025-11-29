@@ -162,7 +162,7 @@
 	icon_state = "atgervi_raider"
 	item_state = "atgervi_raider"
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
-	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
+	body_parts_covered = FULL_HEAD|NECK
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x48/atgervi.dmi'
 	bloody_icon = 'icons/effects/blood64.dmi'
 	block2add = null
