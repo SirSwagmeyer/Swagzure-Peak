@@ -31,7 +31,6 @@
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
-		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/roguetown/mercenary/atgervi
@@ -67,13 +66,16 @@
 						head = /obj/item/clothing/head/roguetown/helmet/bascinet/atgervi
 					if("Ownel Helm")
 						head = /obj/item/clothing/head/roguetown/helmet/bascinet/atgervi/gronn/ownel
+				H.adjust_skillrank_up_to(/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE, TRUE)
 				armor = /obj/item/clothing/suit/roguetown/armor/brigandine/gronn
 				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/atgervi
 				pants = /obj/item/clothing/under/roguetown/splintlegs/iron/gronn
 				neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle
 				gloves = /obj/item/clothing/gloves/roguetown/chain/gronn
 				shoes = /obj/item/clothing/shoes/roguetown/boots/leather/atgervi
-			if("Norsii Plate")
+				var/datum/devotion/C = new /datum/devotion(H, H.patron)
+				C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_2)	//Capped to T1 miracles.
+			if("Norsii Plate") // lose out on miracles, get plate? Down to take this out tbh if people mald 
 				ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 				H.change_stat(STATKEY_CON, 1) //beefcakes
 				H.change_stat(STATKEY_WIL, 1)
@@ -93,8 +95,7 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 
-	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_2)	//Capped to T1 miracles.
+
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
