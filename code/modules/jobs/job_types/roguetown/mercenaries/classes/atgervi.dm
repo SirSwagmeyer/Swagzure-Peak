@@ -125,7 +125,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/atgervi
 	name = "varangian hauberk"
-	desc = "The pride of the Highland mercenaries, this hauberk is a well crafted blend of chain and leather, woven into a dense, protective coat."
+	desc = "The pride of the Highland mercenaries, this hauberk is a well crafted blend of chain and leather woven into a dense, protective coat."
 	icon_state = "atgervi_raider_mail"
 	item_state = "atgervi_raider_mail"
 	max_integrity = 400
