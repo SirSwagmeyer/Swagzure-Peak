@@ -230,7 +230,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/bucket/gronn
 	name = "gronn norsii horned helmet"
-	desc = "This helmet is exemplary of Gronn's infamous horned helms of solid iron. \
+	desc = "One of Gronn's infamous horned helms of solid iron. \
 		Styled after the appearance of invading knights of legend from the Northern Empty, \
 		brutal and bare, it is a reminder of a time before there was snow."
 	icon = 'icons/roguetown/clothing/special/gronn.dmi'
