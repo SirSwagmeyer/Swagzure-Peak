@@ -3,7 +3,7 @@
 /obj/item/clothing/head/roguetown/helmet/bascinet/atgervi/gronn
 	name = "gronnic ravager helm"
 	desc = "A helmet of hardened leather with a carved animal skull to appear similar to a human; a unique design of The Northern Empty. \
-			Their visage is said in Iskarn to scare the spirits of those defeated in the battlefield \
+			Its visage is said in Iskarn to scare the spirits of those defeated in the battlefield \
 			and preventing those of Necra and 'The Moose' from haunting them."
 	icon = 'icons/roguetown/clothing/special/gronn.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/gronn.dmi'
