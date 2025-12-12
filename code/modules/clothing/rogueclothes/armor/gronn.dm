@@ -262,7 +262,7 @@
 
 /obj/item/clothing/gloves/roguetown/plate/iron/gronn
 	name = "gronn norsii iron gauntlets"
-	desc = "Tough iron gauntlets - Although simple and protective in design, a single punch is said to leave a dozen bruises."
+	desc = "Tough iron gauntlets, simple and protective in design. A single punch is said to leave a dozen bruises."
 	icon = 'icons/roguetown/clothing/special/gronn.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/gronn.dmi'
 	icon_state = "gronnplategloves"
