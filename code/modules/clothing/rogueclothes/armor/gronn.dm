@@ -278,7 +278,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/armor/iron/gronn
 	name = "gronn norsii iron boots"
-	desc = "Thick iron boots, tied with leather strapping; protective and sturdy. \
+	desc = "Thick iron boots, tied with a leather cord; protective and sturdy. \
 			Gronnic legend tells of a great warrior who fought for aeons until a hero speared him through the foot. \
 			The Northmen have since followed through by protecting their feet heavily."
 	icon = 'icons/roguetown/clothing/special/gronn.dmi'
