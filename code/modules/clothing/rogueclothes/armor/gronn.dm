@@ -28,7 +28,7 @@
 /obj/item/clothing/under/roguetown/trou/leather/gronn
 	name = "gronnic fur pants"
 	desc = "A pair of hardened leather pants with bone reinforcements along the legs; \
-			Those of gronn adopt a design that offers superior protection against the blunted hits and slashing claws of beasts."
+			Those of Gronn adopt a design that offers superior protection against the blunted hits and slashing claws of beasts."
 	icon_state = "gronnleatherpants"
 	item_state = "gronnleatherpants"
 	armor = ARMOR_GRONN_LIGHT
