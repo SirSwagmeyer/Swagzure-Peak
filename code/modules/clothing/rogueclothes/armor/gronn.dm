@@ -39,7 +39,7 @@
 	
 /obj/item/clothing/gloves/roguetown/angle/gronn
 	name = "gronnic fur-lined leather gloves"
-	desc = "Thick, padded gloves made for the harshest of climates and the wildest of beasts encountered in the untamed lands of Gronn."
+	desc = "Thick, padded gloves made for the harshest of climates and the wildest of beasts encountered in the untamed north."
 	icon_state = "gronnleathergloves"
 	item_state = "gronnleathergloves"
 	icon = 'icons/roguetown/clothing/special/gronn.dmi'
