@@ -38,64 +38,24 @@
 
 /datum/outfit/job/roguetown/mercenary/atgervi/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("You are a Varangian of the Gronn Highlands, Warrior-Traders whose exploits are tied to sworn fealties for their employers. A Varangian's word is bond, and their success is all but guaranteed."))
+	to_chat(H, span_warning("You are a Varangian of the Gronn Highlands. Warrior-Traders whose exploits into the Raneshen Empire will be forever remembered by historians."))
 	H.mind?.current.faction += "[H.name]_faction"
-	H.set_blindness(0)
-	if(H.mind)
-		var/weapons = list("Highlander - Bearded Axe + Shield","Hinterlander - Hinterblade + Hurbats")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
-		switch(weapon_choice)
-			if("Highlander - Bearded Axe + Shield")
-				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
-				backr = /obj/item/rogueweapon/shield/atgervi
-				beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel/atgervi
-			if("Hinterlander - Hinterblade + Hurbats") //Go find a shield buddy
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
-				r_hand = /obj/item/rogueweapon/sword/short/gronn
-				l_hand = /obj/item/rogueweapon/stoneaxe/hurlbat
-				backr = /obj/item/rogueweapon/stoneaxe/hurlbat
-				beltr = /obj/item/rogueweapon/scabbard/sword
-		var/armors = list("Byrine Chainmaille","Norsii Plate")
-		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
-		switch(armor_choice)
-			if("Byrine Chainmaille")
-				var/helmets = list("Owl Helm", "Ownel Helm")
-				var/helmet_choice = input(H, "Choose your VISAGE.", "GET GRONNED.") as anything in helmets
-				switch(helmet_choice)
-					if("Owl Helm")
-						head = /obj/item/clothing/head/roguetown/helmet/bascinet/atgervi
-					if("Ownel Helm")
-						head = /obj/item/clothing/head/roguetown/helmet/bascinet/atgervi/gronn/ownel
-				H.adjust_skillrank_up_to(/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE, TRUE)
-				armor = /obj/item/clothing/suit/roguetown/armor/brigandine/gronn
-				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/atgervi
-				pants = /obj/item/clothing/under/roguetown/splintlegs/iron/gronn
-				neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle
-				gloves = /obj/item/clothing/gloves/roguetown/chain/gronn
-				shoes = /obj/item/clothing/shoes/roguetown/boots/leather/atgervi
-				var/datum/devotion/C = new /datum/devotion(H, H.patron)
-				C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_2)	//Capped to T1 miracles.
-			if("Norsii Plate") // lose out on miracles, get plate? Down to take this out tbh if people mald 
-				ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-				H.change_stat(STATKEY_CON, 1) //beefcakes
-				H.change_stat(STATKEY_WIL, 1)
-				H.change_stat(STATKEY_PER, -1) //CAN'T SEE SHIT IN THIS THING!!!!
-				H.change_stat(STATKEY_SPD, -1) //HARD 2 MOVE
-				head = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/gronn
-				armor = /obj/item/clothing/suit/roguetown/armor/plate/iron/gronn
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/
-				pants = /obj/item/clothing/under/roguetown/platelegs/iron/gronn
-				neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle
-				gloves = /obj/item/clothing/gloves/roguetown/plate/iron/gronn
-				shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron/gronn
-
-
+	head = /obj/item/clothing/head/roguetown/helmet/bascinet/atgervi
+	gloves = /obj/item/clothing/gloves/roguetown/angle/atgervi
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/atgervi
+	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/gronn
+	pants = /obj/item/clothing/under/roguetown/trou/leather/atgervi
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/atgervi
+	backr = /obj/item/rogueweapon/shield/atgervi
 	backl = /obj/item/storage/backpack/rogue/satchel/black
+	beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel/atgervi
 	belt = /obj/item/storage/belt/rogue/leather
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle //They didn't have neck protection before.
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 
-
+	var/datum/devotion/C = new /datum/devotion(H, H.patron)
+	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_2)	//Capped to T1 miracles.
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
