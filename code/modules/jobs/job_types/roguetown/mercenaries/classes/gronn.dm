@@ -58,13 +58,13 @@
 				beltr = /obj/item/rogueweapon/scabbard/sword
 				l_hand = /obj/item/rogueweapon/sword/short/gronn //New heavy shortsword.
 				neck = /obj/item/clothing/neck/roguetown/leather
-				H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/shields, 4, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
-				H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/shields, 4, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, 2, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/knives, 3, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, 4, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 3, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 2, TRUE)
 				H.change_stat(STATKEY_STR, 2)
 				H.change_stat(STATKEY_PER, 2) //You technically wield a shortsword
 				H.change_stat(STATKEY_WIL, 2)
@@ -85,13 +85,13 @@
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 				pants = /obj/item/clothing/under/roguetown/trou/leather/gronn
 				neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
-				H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/whipsflails, 3, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
-				H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, 2, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 3, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/shields, 3, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/knives, 2, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, 4, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 3, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 2, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/craft/traps, 3, TRUE)			//Ditto
 				H.change_stat(STATKEY_CON, 2)
 				H.change_stat(STATKEY_WIL, 3)
