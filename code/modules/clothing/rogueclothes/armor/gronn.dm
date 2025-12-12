@@ -232,7 +232,7 @@
 	name = "gronn norsii horned helmet"
 	desc = "This helmet is exemplary of Gronn's infamous horned helms of solid iron. \
 		Styled after the appearance of invading knights of legend from the Northern Empty, \
-		Brutal and bare within, it is a reminder of a time before there was snow."
+		brutal and bare, it is a reminder of a time before there was snow."
 	icon = 'icons/roguetown/clothing/special/gronn.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/gronn.dmi'
 	bloody_icon = 'icons/effects/blood64.dmi'
