@@ -1784,6 +1784,7 @@
 #include "code\modules\jobs\job_types\roguetown\mercenaries\mercenary.dm"
 #include "code\modules\jobs\job_types\roguetown\mercenaries\classes\anthrax.dm"
 #include "code\modules\jobs\job_types\roguetown\mercenaries\classes\atgervi.dm"
+#include "code\modules\jobs\job_types\roguetown\mercenaries\classes\gronn.dm"
 #include "code\modules\jobs\job_types\roguetown\mercenaries\classes\blackoak.dm"
 #include "code\modules\jobs\job_types\roguetown\mercenaries\classes\etrusca.dm"
 #include "code\modules\jobs\job_types\roguetown\mercenaries\classes\desertrider.dm"
