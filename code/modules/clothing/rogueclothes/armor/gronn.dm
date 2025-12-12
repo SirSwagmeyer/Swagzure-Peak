@@ -249,7 +249,7 @@
 /obj/item/clothing/suit/roguetown/armor/plate/iron/gronn
 	name = "gronn norsii iron plate"
 	desc = "A suit of solid iron plate, adorned with tassets and roundels. \
-			The Northmen of Gronn oft never used plate, but when they did, \
+			The Northmen of Gronn rarely used plate, but when they did, \
 			it is said that whole armies would quake and shake in fear of what would ravage them."
 	icon = 'icons/roguetown/clothing/special/gronn.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/gronn.dmi'
