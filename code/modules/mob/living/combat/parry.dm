@@ -137,6 +137,12 @@
 		if(HAS_TRAIT(U, TRAIT_FENCERDEXTERITY))
 			prob2defend -= 5
 
+	if(HAS_TRAIT(U, TRAIT_ARMOUR_DISLIKED)) //If they're wearing disliked armor, the enemy gains an increased parry chance and you suffer disadvantage on parries.
+		if(HAS_TRAIT(U, TRAIT_HONORBOUND))
+			prob2defend += 10
+			extradefroll = prob(prob2defend)
+			defender_dualw = TRUE
+
 	prob2defend = clamp(prob2defend, 5, 90)
 	if(HAS_TRAIT(user, TRAIT_HARDSHELL) && H.client)	//Dwarf-merc specific limitation w/ their armor on in pvp
 		prob2defend = clamp(prob2defend, 5, 70)
