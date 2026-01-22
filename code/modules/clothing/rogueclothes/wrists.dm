@@ -41,7 +41,7 @@
 	sewrepair = FALSE
 	smeltresult = /obj/item/ingot/steel
 
-/obj/item/clothing/wrists/roguetown/bracers/leather/ComponentInitialize()
+/obj/item/clothing/wrists/roguetown/bracers/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
@@ -280,7 +280,7 @@
 
 /obj/item/clothing/wrists/roguetown/bracers/jackchain/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
-	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)
 
 //
 
