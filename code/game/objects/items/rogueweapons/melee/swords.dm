@@ -1597,7 +1597,7 @@
 // kazengite content
 // Stronger offense less defense sword meant to be paired w/ scabbard for parrying
 /obj/item/rogueweapon/sword/sabre/mulyeog
-	force = 25
+	force = 22
 	name = "hwando" // From Korean Hwangdo - Lit. Military Sword / Sabre, noted for less curves than a Japanese katana.
 	desc = "A foreign single-edged sword used by cut-throats & thugs. There's a red tassel on the hilt, said to bring about good fortune."
 	sheathe_icon = "mulyeog"
@@ -1611,7 +1611,7 @@
 	icon_state = "eastsword2"
 
 /obj/item/rogueweapon/sword/sabre/mulyeog/rumacaptain
-	force = 30
+	force = 23 //Fucking Zeratino giving this thing the same force as a battleaxe for some goddamn reason. Hell no bruh!!
 	name = "samjeongdo"
 	desc = "A gold-stained sword with cloud patterns on the groove. One of a kind. It is a symbol of status within the Ruma clan."
 	icon_state = "eastsword3"
