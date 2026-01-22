@@ -7,13 +7,14 @@
 	subclass_languages = list(/datum/language/kazengunese)
 	class_select_category = CLASS_CAT_KAZENGUN
 	category_tags = list(CTAG_MERCENARY)
-	traits_applied = list(TRAIT_HARDDISMEMBER, TRAIT_NOPAINSTUN, TRAIT_HONORBOUND)
+	traits_applied = list(TRAIT_CRITICAL_RESISTANCE, TRAIT_HARDDISMEMBER, TRAIT_NOPAINSTUN, TRAIT_HONORBOUND)
 	cmode_music = 'sound/music/combat_kazengite.ogg'
 	subclass_stats = list(
-		STATKEY_CON = 2,
-		STATKEY_WIL = 2,
+		STATKEY_CON = 3,
+		STATKEY_WIL = 3,
 		STATKEY_STR = 2,
 		STATKEY_PER = 1,
+		STATKEY_SPD = -1
 	)
 	subclass_skills = list(
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
@@ -22,7 +23,7 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN, 
+		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
@@ -54,20 +55,21 @@
 	tutorial = "A band of foreign outcast Kazengunites. The Ruma Clan were outcasts from the Xinyi Dynasty, believed to be associated with the rebels at the time. The clan departed lest they risked being executed for such suspicions, or worse. It is no organized group of soldiers, but rather a loose collection of experienced fighters."
 	outfit = /datum/outfit/job/roguetown/mercenary/rumaclan_sasu
 	subclass_stats = list(
-		STATKEY_SPD = 2,
+		STATKEY_SPD = 4,
 		STATKEY_PER = 2,
 		STATKEY_WIL = 2,
-		STATKEY_CON = 1
+		STATKEY_STR = -1,
+		STATKEY_CON = -1
 	)
 	subclass_skills = list(
-		/datum/skill/combat/bows = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/bows = SKILL_LEVEL_MASTER,
 		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
