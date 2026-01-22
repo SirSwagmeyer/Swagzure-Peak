@@ -1611,7 +1611,7 @@
 	icon_state = "eastsword2"
 
 /obj/item/rogueweapon/sword/sabre/mulyeog/rumacaptain
-	force = 23 //Fucking Zeratino giving this thing the same force as a battleaxe for some goddamn reason. Hell no bruh!!
+	force = 25 //Fucking Zeratino giving this thing the same force as a battleaxe for some goddamn reason. Hell no bruh!!
 	name = "samjeongdo"
 	desc = "A gold-stained sword with cloud patterns on the groove. One of a kind. It is a symbol of status within the Ruma clan."
 	icon_state = "eastsword3"
