@@ -1,3 +1,4 @@
+// Hedge Mage, a pure mage adventurer sidegrade to Necromancer without the Necromancer free spells and forced patron. More spellpoints, otherwise mostly the same.
 /datum/advclass/wretch/wretchedtoiler
 	name = "Wretched Toiler"
 	tutorial = "The wretched engine of evil churns ever onward - the gears pushed by wretched toilers such as yourself. And toil you shall - until the machinations of thine masters come to fruition."
@@ -60,7 +61,7 @@
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery)
 	//you get miracles, but nothing actually useful.
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_2)
+	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_4)
 	//give minion orders if they're a zizite
 	if (istype (H.patron, /datum/patron/inhumen/zizo))
 		if(H.mind)
