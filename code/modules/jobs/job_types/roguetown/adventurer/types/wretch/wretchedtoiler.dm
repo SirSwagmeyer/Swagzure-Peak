@@ -186,7 +186,6 @@
 			H.change_stat(STATKEY_STR, 2)
 			H.change_stat(STATKEY_INT, -2)
 			ADD_TRAIT(H, TRAIT_TRAINED_SMITH, TRAIT_GENERIC)
-			ADD_TRAIT(H, TRAIT_SMITHING_EXPERT, TRAIT_GENERIC)
 			H.adjust_skillrank_up_to(/datum/skill/craft/blacksmithing, SKILL_LEVEL_EXPERT, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/armorsmithing, SKILL_LEVEL_EXPERT, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/weaponsmithing, SKILL_LEVEL_EXPERT, TRUE)
