@@ -34,6 +34,8 @@
 				continue
 			if(user.advjob == "Disgraced Knight" && target.advjob == "Disgraced Man at Arms") //Special line so Disgraced Knight can buff Disgraced Man at Arms
 				affectedtargets += target
+			if(user.advjob == "Wretched Toiler" && (target.advjob == "Disgraced Knight" || target.advjob == "Disgraced Man at Arms")) 
+				affectedtargets += target
 		if(!length(affectedtargets))
 			to_chat(user, span_alert("There are no subordinates close enough to hear my orders!"))
 			revert_cast()
