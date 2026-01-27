@@ -155,7 +155,7 @@
 					r_hand = /obj/item/rogueweapon/greataxe // not steel
 			var/prev_real_name = H.real_name
 			var/prev_name = H.name
-			var/prefix = "Big" // if i see someone named "Boss" pick big man for this bit i will kill them
+			var/prefix = "Skinny" // if i see someone named "Boss" pick big man for this bit i will kill them
 			H.real_name = "[prefix] [prev_real_name]"
 			H.name = "[prefix] [prev_name]"
 
