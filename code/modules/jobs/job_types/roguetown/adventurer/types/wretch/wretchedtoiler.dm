@@ -78,6 +78,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_EXPERT, TRUE) //To give them good odds at the scrying orb. They dont actually GET a lot of spellpoints.
 			//orders and stuff. you're the MASTERMIND!
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/movemovemove)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/takeaim)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/hold)
@@ -175,6 +176,7 @@
 					)
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/magicians_brick) //hilarious
 					H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE) //for the brick
+					H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 
 			neck = /obj/item/clothing/neck/roguetown/gorget/cursed_collar //hey, relax. it's just an iron gorget that you can't take off and makes you look like someone's pet
 			armor = /obj/item/clothing/suit/roguetown/shirt/rags //toilmaxxing
