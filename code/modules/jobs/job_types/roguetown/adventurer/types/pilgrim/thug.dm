@@ -12,9 +12,10 @@
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_WIL = 1,
-		STATKEY_CON = 3,
+		STATKEY_CON = 2,
 		STATKEY_SPD = -1,
-		STATKEY_INT = -1,
+		STATKEY_INT = -2,
+		STATKEY_PER = -2
 	)
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
@@ -60,16 +61,12 @@
 			H.adjust_skillrank_up_to(/datum/skill/craft/cooking, SKILL_LEVEL_EXPERT, TRUE) // expert cook; expert pan-handler
 			r_hand = /obj/item/cooking/pan
 		if("Knuckles")
-			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
 			r_hand = /obj/item/rogueweapon/knuckles/bronzeknuckles
 		if("Navaja") //Switchblade aura farm
-			H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
 			r_hand = /obj/item/rogueweapon/huntingknife/idagger/navaja
 		if("Bare Hands")
-			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
 			ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
 		if("My Trusty Cudgel") //The classic.
-			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
 			r_hand = /obj/item/rogueweapon/mace/cudgel
 		if("Whatever I Can Find") // random weapon from the dungeon table; could be a wooden club, could be a halberd
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_APPRENTICE, TRUE)
@@ -92,7 +89,8 @@
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 	subclass_stats = list(
 		STATKEY_WIL = -2,
-		STATKEY_CON = -2,		
+		STATKEY_CON = -2,	
+		STATKEY_STR = -1,
 		STATKEY_SPD = 2,
 		STATKEY_INT = 2,
 	)
@@ -136,16 +134,15 @@
 	var/option_choice = input("Choose your means.", "TAKE UP ARMS") as anything in options
 	switch(option_choice)
 		if("Sling")
-			H.adjust_skillrank_up_to(/datum/skill/combat/slings, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/slings, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 			l_hand = /obj/item/quiver/sling/iron
 		if("Magic Bricks")
 			H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_EXPERT, TRUE) // i fear not the man that has practiced a thousand moves one time, but the man that has practiced one move a thousand times
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/magicians_brick)
 		if("Lockpicking Equipment")
-			H.adjust_skillrank_up_to(/datum/skill/misc/sneaking, SKILL_LEVEL_NOVICE, TRUE) // specialized into stealing; but good luck fighting
-			H.adjust_skillrank_up_to(/datum/skill/misc/stealing, SKILL_LEVEL_NOVICE, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/misc/lockpicking, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/misc/stealing, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/misc/lockpicking, SKILL_LEVEL_EXPERT, TRUE)
 			ADD_TRAIT(H, TRAIT_LIGHT_STEP, TRAIT_GENERIC)
 			r_hand = /obj/item/lockpickring/mundane
 	if(H.mind)
@@ -163,12 +160,13 @@
 	maximum_possible_slots = 1 // i dont want an army of towner thugs
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 	subclass_stats = list(
-		STATKEY_STR = 3,
+		STATKEY_STR = 2,
 		STATKEY_WIL = 2,
 		STATKEY_CON = 5,
 		STATKEY_SPD = -4,
 		STATKEY_INT = -6,
 		STATKEY_PER = -3,
+		STATKEY_FOR = -1,
 	)
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
