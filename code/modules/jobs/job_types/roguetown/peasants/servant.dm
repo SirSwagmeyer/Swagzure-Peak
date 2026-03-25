@@ -10,7 +10,7 @@
 	allowed_races = ACCEPTED_RACES
 	allowed_ages = ALL_AGES_LIST
 
-	tutorial = "Granted a life of comfortable servitude in the Duke's manor, you follow the Seneschal's commands and spend your day performing necessary but menial tasks. This role offers an aesthetic choice between labor-servant, maid, and butler."
+	tutorial = "Granted a life of comfortable servitude in the Duke's manor, you follow the Seneschal's commands and spend your day performing necessary but menial tasks. This role offers an aesthetic choice between labor-servant, maid, and footman."
 
 	outfit = /datum/outfit/job/roguetown/servant
 	advclass_cat_rolls = list(CTAG_SERVANT = 20)
@@ -25,7 +25,7 @@
 	job_subclasses = list(
 		/datum/advclass/servant/servant,
 		/datum/advclass/servant/maid,
-		/datum/advclass/servant/butler
+		/datum/advclass/servant/manservant
 	)
 
 /datum/advclass/servant
@@ -96,9 +96,9 @@
 
 /datum/outfit/job/roguetown/servant/maid/pre_equip(mob/living/carbon/human/H)
 	..()
-	head = /obj/item/clothing/head/roguetown/maidhead
-	armor = /obj/item/clothing/suit/roguetown/shirt/dress/maid
-	cloak = /obj/item/clothing/cloak/apron/waist/maid
+	head = /obj/item/clothing/head/roguetown/maidband
+	armor = /obj/item/clothing/suit/roguetown/shirt/dress/maidfancy
+	cloak = /obj/item/clothing/cloak/apron/waist/fancymaid
 	belt = /obj/item/storage/belt/rogue/leather/sash/maid
 	shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
 	backl = /obj/item/storage/backpack/rogue/satchel
@@ -107,8 +107,8 @@
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_WORKING_CLASS, H, "Savings.")
 
-/datum/advclass/servant/butler
-	name = "Butler"
+/datum/advclass/servant/manservant
+	name = "Manservant"
 	tutorial = "An impeccable appearance is your core being. You still dig through the mud, though, you just do the laundry more."
 	outfit = /datum/outfit/job/roguetown/servant/butler
 	category_tags = list(CTAG_SERVANT)
@@ -133,11 +133,11 @@
 
 /datum/outfit/job/roguetown/servant/butler/pre_equip(mob/living/carbon/human/H)
 	..()
-	pants = /obj/item/clothing/under/roguetown/tights/black
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
+	pants = /obj/item/clothing/under/roguetown/tights/shorts
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/formal
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
 	backl = /obj/item/storage/backpack/rogue/satchel
-	belt = /obj/item/storage/belt/rogue/leather
+	belt = /obj/item/storage/belt/rogue/leather/suspenders
 	beltr = /obj/item/roguekey/manor
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/black

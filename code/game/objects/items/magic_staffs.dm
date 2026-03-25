@@ -1,17 +1,6 @@
-#define TOPER_CAST_TIME_REDUCTION 0.1
-#define EMERALD_CAST_TIME_REDUCTION 0.15
-#define SAPPHIRE_CAST_TIME_REDUCTION 0.2
-#define QUARTZ_CAST_TIME_REDUCTION 0.25
-#define RUBY_CAST_TIME_REDUCTION 0.3
-#define DIAMOND_CAST_TIME_REDUCTION 0.35
-#define RIDDLE_OF_STEEL_CAST_TIME_REDUCTION 0.4
-
 //we use discrete staff objs so that they can be easily thrown into loot tables and maps without complex varediting
 
-/obj/item/rogueweapon/woodstaff
-	var/cast_time_reduction = null
-
-/obj/item/rogueweapon/woodstaff/examine(mob/user)
+/obj/item/rogueweapon/examine(mob/user)
 	.=..()
 	if(cast_time_reduction)
 		. += span_notice("This staff has been augmented with a gem, reducing a mage's spell casting time by [cast_time_reduction * 100]% when they hold it in their hand.")
@@ -44,8 +33,8 @@
 	icon_state = "topazstaff"
 	cast_time_reduction = TOPER_CAST_TIME_REDUCTION
 	resistance_flags = FIRE_PROOF //imagine the salt
-	possible_item_intents = list(SPEAR_BASH, /datum/intent/special/magicarc)
-	gripped_intents = list(SPEAR_BASH, /datum/intent/special/magicarc, /datum/intent/mace/smash/wood)
+	possible_item_intents = list(SPEAR_BASH)
+	gripped_intents = list(SPEAR_BASH, /datum/intent/mace/smash/wood)
 	sellprice = 34
 
 /obj/item/rogueweapon/woodstaff/amethyst
@@ -55,8 +44,8 @@
 	icon_state = "amethyststaff"
 	cast_time_reduction = TOPER_CAST_TIME_REDUCTION
 	resistance_flags = FIRE_PROOF
-	possible_item_intents = list(SPEAR_BASH, /datum/intent/special/magicarc)
-	gripped_intents = list(SPEAR_BASH, /datum/intent/special/magicarc, /datum/intent/mace/smash/wood)
+	possible_item_intents = list(SPEAR_BASH)
+	gripped_intents = list(SPEAR_BASH, /datum/intent/mace/smash/wood)
 
 /obj/item/rogueweapon/woodstaff/emerald
 	name = "gemerald-focused staff"
@@ -65,8 +54,8 @@
 	icon_state = "emeraldstaff"
 	cast_time_reduction = EMERALD_CAST_TIME_REDUCTION
 	resistance_flags = FIRE_PROOF
-	possible_item_intents = list(SPEAR_BASH, /datum/intent/special/magicarc)
-	gripped_intents = list(SPEAR_BASH, /datum/intent/special/magicarc, /datum/intent/mace/smash/wood)
+	possible_item_intents = list(SPEAR_BASH)
+	gripped_intents = list(SPEAR_BASH, /datum/intent/mace/smash/wood)
 	sellprice = 42
 
 /obj/item/rogueweapon/woodstaff/emerald/blacksteelstaff
@@ -82,8 +71,8 @@
 	icon_state = "sapphirestaff"
 	cast_time_reduction = SAPPHIRE_CAST_TIME_REDUCTION
 	resistance_flags = FIRE_PROOF
-	possible_item_intents = list(SPEAR_BASH, /datum/intent/special/magicarc)
-	gripped_intents = list(SPEAR_BASH, /datum/intent/special/magicarc, /datum/intent/mace/smash/wood)
+	possible_item_intents = list(SPEAR_BASH)
+	gripped_intents = list(SPEAR_BASH, /datum/intent/mace/smash/wood)
 	sellprice = 56
 
 /obj/item/rogueweapon/woodstaff/quartz
@@ -93,8 +82,8 @@
 	icon_state = "quartzstaff"
 	cast_time_reduction = QUARTZ_CAST_TIME_REDUCTION
 	resistance_flags = FIRE_PROOF
-	possible_item_intents = list(SPEAR_BASH, /datum/intent/special/magicarc)
-	gripped_intents = list(SPEAR_BASH, /datum/intent/special/magicarc, /datum/intent/mace/smash/wood)
+	possible_item_intents = list(SPEAR_BASH)
+	gripped_intents = list(SPEAR_BASH, /datum/intent/mace/smash/wood)
 	sellprice = 88
 
 /obj/item/rogueweapon/woodstaff/ruby
@@ -104,8 +93,8 @@
 	icon_state = "rubystaff"
 	cast_time_reduction = RUBY_CAST_TIME_REDUCTION
 	resistance_flags = FIRE_PROOF
-	possible_item_intents = list(SPEAR_BASH, /datum/intent/special/magicarc)
-	gripped_intents = list(SPEAR_BASH, /datum/intent/special/magicarc, /datum/intent/mace/smash/wood)
+	possible_item_intents = list(SPEAR_BASH)
+	gripped_intents = list(SPEAR_BASH, /datum/intent/mace/smash/wood)
 	sellprice = 100
 
 /obj/item/rogueweapon/woodstaff/diamond
@@ -115,8 +104,8 @@
 	icon_state = "diamondstaff"
 	cast_time_reduction = DIAMOND_CAST_TIME_REDUCTION
 	resistance_flags = FIRE_PROOF
-	possible_item_intents = list(SPEAR_BASH, /datum/intent/special/magicarc)
-	gripped_intents = list(SPEAR_BASH, /datum/intent/special/magicarc, /datum/intent/mace/smash/wood)
+	possible_item_intents = list(SPEAR_BASH)
+	gripped_intents = list(SPEAR_BASH, /datum/intent/mace/smash/wood)
 	sellprice = 121
 
 /obj/item/rogueweapon/woodstaff/diamond/blacksteelstaff // Upgraded version, more CDR can be crafted by combining a base Blacksteel Staff with a dorpel
@@ -133,13 +122,54 @@
 	icon_state = "riddlestaff"
 	cast_time_reduction = RIDDLE_OF_STEEL_CAST_TIME_REDUCTION
 	resistance_flags = FIRE_PROOF
-	possible_item_intents = list(SPEAR_BASH, /datum/intent/special/magicarc)
-	gripped_intents = list(SPEAR_BASH, /datum/intent/special/magicarc, /datum/intent/mace/smash/wood)
+	possible_item_intents = list(SPEAR_BASH)
+	gripped_intents = list(SPEAR_BASH, /datum/intent/mace/smash/wood)
 	sellprice = 400
+
+/datum/intent/magos_electrocute
+	name = "shock associate"
+	blade_class = null
+	icon_state = "inuse"
+	tranged = TRUE
+	noaa = TRUE
 
 /obj/item/rogueweapon/woodstaff/riddle_of_steel/magos
 	name = "\improper Staff of the Court Magos"
 	icon_state = "courtstaff"
+	possible_item_intents = list(SPEAR_BASH, /datum/intent/magos_electrocute)
+	gripped_intents = list(SPEAR_BASH, /datum/intent/mace/smash/wood, /datum/intent/magos_electrocute)
+	COOLDOWN_DECLARE(magosstaff)
+
+/obj/item/rogueweapon/woodstaff/riddle_of_steel/magos/afterattack(atom/target, mob/user, flag)
+	. = ..()
+	if(get_dist(user, target) > 7)
+		return
+	user.changeNext_move(CLICK_CD_MELEE)
+	if(ishuman(user))
+		var/mob/living/carbon/human/HU = user
+		if(HU.job != "Court Magician")
+			to_chat(user, span_danger("The staff doesn't obey me."))
+			return
+		if(ishuman(target))
+			var/mob/living/carbon/human/H = target
+			if(H == HU)
+				return
+			if(!COOLDOWN_FINISHED(src, magosstaff))
+				to_chat(user, span_danger("The [src] is not ready yet! [round(COOLDOWN_TIMELEFT(src, magosstaff) / 10, 1)] seconds left!"))
+				return
+			if(H.anti_magic_check())
+				to_chat(user, span_danger("Their magic protection has interrupted my cast!"))
+				return
+			if(H.job != "Magicians Associate")
+				to_chat(user, span_danger("The target must one of my associates!"))
+				return
+			if(istype(user.used_intent, /datum/intent/magos_electrocute))
+				HU.visible_message(span_warning("[HU] electrocutes [H] with the [src]."))
+				user.Beam(target,icon_state="lightning[rand(1,12)]",time=5)
+				H.electrocute_act(5, src)
+				COOLDOWN_START(src, magosstaff, 20 SECONDS)
+				to_chat(H, span_danger("I'm electrocuted by the Court Magos!"))
+				return
 
 /obj/item/rogueweapon/woodstaff/naledi
 	cast_time_reduction = DIAMOND_CAST_TIME_REDUCTION
@@ -213,12 +243,3 @@
 	reqs = list(/obj/item/rogueweapon/woodstaff/emerald/blacksteelstaff = 1,
 				/obj/item/roguegem/diamond = 1)
 	craftdiff = 0
-
-
-#undef TOPER_CAST_TIME_REDUCTION
-#undef EMERALD_CAST_TIME_REDUCTION
-#undef SAPPHIRE_CAST_TIME_REDUCTION
-#undef QUARTZ_CAST_TIME_REDUCTION
-#undef RUBY_CAST_TIME_REDUCTION
-#undef DIAMOND_CAST_TIME_REDUCTION
-#undef RIDDLE_OF_STEEL_CAST_TIME_REDUCTION

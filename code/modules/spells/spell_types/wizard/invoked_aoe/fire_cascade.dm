@@ -4,7 +4,7 @@
 	overlay_state = "fireaura"
 	spell_tier = 3
 	cost = 6
-	releasedrain = 20
+	releasedrain = SPELLCOST_MINOR_AOE
 	chargedrain = 1
 	chargetime = 0.5 SECONDS
 	recharge_time = 30 SECONDS
@@ -14,10 +14,11 @@
 	no_early_release = TRUE
 	charging_slowdown = 2
 	chargedloop = /datum/looping_sound/invokegen
-	invocations = list("C'SC'D.")
+	invocations = list("Ignis Cataracta.")
 	invocation_type = "whisper"
 	xp_gain = TRUE
 	associated_skill = /datum/skill/magic/arcane
+	human_req = TRUE // Combat spell
 
 	var/flame_radius = 2
 	var/hotspot_lifetime = 3

@@ -43,7 +43,7 @@
 		TRAIT_NOPAIN,
 		TRAIT_NOPAINSTUN,
 		TRAIT_NOBREATH,
-		TRAIT_NOBREATH,
+		TRAIT_DEATHLESS,
 		TRAIT_TOXIMMUNE,
 		TRAIT_CHUNKYFINGERS,
 		TRAIT_NOSLEEP,
@@ -54,7 +54,8 @@
 		TRAIT_ZOMBIE_IMMUNE,
 		TRAIT_ROTMAN,
 		TRAIT_NORUN,
-		TRAIT_SILVER_WEAK
+		TRAIT_SILVER_WEAK,
+		TRAIT_DEADITE,
 	)
 	/// Traits applied to the owner when we are cured and turn into just "rotmen"
 	var/static/list/traits_rotman = list(
@@ -62,6 +63,7 @@
 		TRAIT_NOPAIN,
 		TRAIT_NOPAINSTUN,
 		TRAIT_NOBREATH,
+		TRAIT_DEATHLESS,
 		TRAIT_TOXIMMUNE,
 		TRAIT_ZOMBIE_IMMUNE,
 		TRAIT_ROTMAN,
@@ -166,8 +168,8 @@
 		zombie.npc_jump_chance = initial(zombie.npc_jump_chance)
 		zombie.rude = initial(zombie.rude)
 		zombie.tree_climber = initial(zombie.tree_climber)
-		if(zombie.charflaw)
-			zombie.charflaw.ephemeral = FALSE
+		for(var/datum/charflaw/cf in zombie.charflaws)
+			cf.ephemeral = FALSE
 		zombie.update_body()
 
 		zombie.STASTR = src.STASTR
@@ -252,8 +254,8 @@
 	ambushable = zombie.ambushable
 	zombie.ambushable = FALSE
 
-	if(zombie.charflaw)
-		zombie.charflaw.ephemeral = TRUE
+	for(var/datum/charflaw/cf in zombie.charflaws)
+		cf.ephemeral = TRUE
 	zombie.mob_biotypes |= MOB_UNDEAD
 	zombie.faction += "undead"
 	zombie.faction += "zombie"
@@ -402,6 +404,7 @@
 		zombie.flash_fullscreen("redflash3")
 		zombie.emote("scream") // Warning for nearby players
 		zombie.Knockdown(1)
+		zombie.drop_all_held_items()
 
 ///Making sure they're not any other antag as well as adding the zombie datum to their mind
 /mob/living/carbon/human/proc/zombie_check_can_convert()
@@ -415,6 +418,8 @@
 		return
 	if(mind.has_antag_datum(/datum/antagonist/skeleton))
 		return
+	if(mind.has_antag_datum(/datum/antagonist/gnoll))
+		return FALSE
 	if(HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE))
 		return
 	return mind.add_antag_datum(/datum/antagonist/zombie)

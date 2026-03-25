@@ -12,7 +12,7 @@
 	throwforce = 10
 	w_class = WEIGHT_CLASS_NORMAL
 	block_chance = 0
-	armor_penetration = 0
+	armor_penetration = PEN_NONE
 	sharpness = IS_SHARP
 	possible_item_intents = list(SWORD_CUT, SWORD_THRUST)
 	can_parry = TRUE
@@ -42,6 +42,8 @@
 	var/datum/special_intent/special
 
 	var/malumblessed_w = FALSE
+
+	var/cast_time_reduction = null
 
 /obj/item/rogueweapon/Initialize()
 	. = ..()

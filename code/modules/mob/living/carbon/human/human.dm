@@ -73,12 +73,10 @@
 
 /mob/living/carbon/human/Initialize()
 	verbs += /mob/living/proc/lay_down
-
-	icon_state = ""		//Remove the inherent human icon that is visible on the map editor. We're rendering ourselves limb by limb, having it still be there results in a bug where the basic human icon appears below as south in all directions and generally looks nasty.
+	icon_state = "" //Remove the inherent human icon that is visible on the map editor. We're rendering ourselves limb by limb, having it still be there results in a bug where the basic human icon appears below as south in all directions and generally looks nasty.
 
 	//initialize limbs first
 	create_bodyparts()
-
 	setup_human_dna()
 
 	if(dna.species)
@@ -90,10 +88,21 @@
 
 	. = ..()
 
+	AddComponent(/datum/component/arousal)
+	
+
 	RegisterSignal(src, COMSIG_COMPONENT_CLEAN_ACT, PROC_REF(clean_blood))
 	AddComponent(/datum/component/personal_crafting)
 	AddComponent(/datum/component/footstep, footstep_type, 1, 2)
 	GLOB.human_list += src
+	unarmed_special = new /datum/special_intent/upper_cut()
+
+	max_breath = 10
+	breath_remaining = 10
+	addtimer(CALLBACK(src, PROC_REF(update_breath_hud)), 1)
+
+	our_cells = new(interesting_dist, interesting_dist, 1)
+	set_new_cells()
 
 /mob/living/carbon/human/ZImpactDamage(turf/T, levels)
 	var/obj/item/bodypart/affecting
@@ -570,24 +579,44 @@
 				. = 1
 				if(stamina >= max_stamina)
 					hud_used.stamina.icon_state = "stam0"
+				else if(stamina > max_stamina*0.95)
+					hud_used.stamina.icon_state = "stam5"
 				else if(stamina > max_stamina*0.90)
 					hud_used.stamina.icon_state = "stam10"
+				else if(stamina > max_stamina*0.85)
+					hud_used.stamina.icon_state = "stam15"
 				else if(stamina > max_stamina*0.80)
 					hud_used.stamina.icon_state = "stam20"
+				else if(stamina > max_stamina*0.75)
+					hud_used.stamina.icon_state = "stam25"
 				else if(stamina > max_stamina*0.70)
 					hud_used.stamina.icon_state = "stam30"
+				else if(stamina > max_stamina*0.65)
+					hud_used.stamina.icon_state = "stam35"
 				else if(stamina > max_stamina*0.60)
 					hud_used.stamina.icon_state = "stam40"
+				else if(stamina > max_stamina*0.55)
+					hud_used.stamina.icon_state = "stam45"
 				else if(stamina > max_stamina*0.50)
 					hud_used.stamina.icon_state = "stam50"
+				else if(stamina > max_stamina*0.45)
+					hud_used.stamina.icon_state = "stam55"
 				else if(stamina > max_stamina*0.40)
 					hud_used.stamina.icon_state = "stam60"
+				else if(stamina > max_stamina*0.35)
+					hud_used.stamina.icon_state = "stam65"
 				else if(stamina > max_stamina*0.30)
 					hud_used.stamina.icon_state = "stam70"
+				else if(stamina > max_stamina*0.25)
+					hud_used.stamina.icon_state = "stam75"
 				else if(stamina > max_stamina*0.20)
 					hud_used.stamina.icon_state = "stam80"
+				else if(stamina > max_stamina*0.15)
+					hud_used.stamina.icon_state = "stam85"
 				else if(stamina > max_stamina*0.10)
 					hud_used.stamina.icon_state = "stam90"
+				else if(stamina > max_stamina*0.05)
+					hud_used.stamina.icon_state = "stam95"
 				else if(stamina >= 0)
 					hud_used.stamina.icon_state = "stam100"
 		if(hud_used.energy)
@@ -595,26 +624,46 @@
 				. = 1
 				if(energy <= 0)
 					hud_used.energy.icon_state = "energy0"
-				else if(energy > max_energy*0.90)
+				else if(energy > max_energy*0.95)
 					hud_used.energy.icon_state = "energy100"
-				else if(energy > max_energy*0.80)
+				else if(energy > max_energy*0.90)
+					hud_used.energy.icon_state = "energy95"
+				else if(energy > max_energy*0.85)
 					hud_used.energy.icon_state = "energy90"
-				else if(energy > max_energy*0.70)
+				else if(energy > max_energy*0.80)
+					hud_used.energy.icon_state = "energy85"
+				else if(energy > max_energy*0.75)
 					hud_used.energy.icon_state = "energy80"
-				else if(energy > max_energy*0.60)
+				else if(energy > max_energy*0.70)
+					hud_used.energy.icon_state = "energy75"
+				else if(energy > max_energy*0.65)
 					hud_used.energy.icon_state = "energy70"
-				else if(energy > max_energy*0.50)
+				else if(energy > max_energy*0.60)
+					hud_used.energy.icon_state = "energy65"
+				else if(energy > max_energy*0.55)
 					hud_used.energy.icon_state = "energy60"
-				else if(energy > max_energy*0.40)
+				else if(energy > max_energy*0.50)
+					hud_used.energy.icon_state = "energy55"
+				else if(energy > max_energy*0.45)
 					hud_used.energy.icon_state = "energy50"
-				else if(energy > max_energy*0.30)
+				else if(energy > max_energy*0.40)
+					hud_used.energy.icon_state = "energy45"
+				else if(energy > max_energy*0.35)
 					hud_used.energy.icon_state = "energy40"
-				else if(energy > max_energy*0.20)
+				else if(energy > max_energy*0.30)
+					hud_used.energy.icon_state = "energy35"
+				else if(energy > max_energy*0.25)
 					hud_used.energy.icon_state = "energy30"
-				else if(energy > max_energy*0.10)
+				else if(energy > max_energy*0.20)
+					hud_used.energy.icon_state = "energy25"
+				else if(energy > max_energy*0.15)
 					hud_used.energy.icon_state = "energy20"
-				else if(energy > 0)
+				else if(energy > max_energy*0.10)
+					hud_used.energy.icon_state = "energy15"
+				else if(energy > max_energy*0.05)
 					hud_used.energy.icon_state = "energy10"
+				else if(energy > 0)
+					hud_used.energy.icon_state = "energy5"
 
 		if(hud_used.zone_select)
 			hud_used.zone_select.update_icon()
@@ -659,7 +708,6 @@
 	. = ..()
 	VV_DROPDOWN_OPTION("", "---------")
 	VV_DROPDOWN_OPTION(VV_HK_REAPPLY_PREFS, "Reapply Preferences")
-	VV_DROPDOWN_OPTION(VV_HK_COPY_OUTFIT, "Copy Outfit")
 	VV_DROPDOWN_OPTION(VV_HK_SET_SPECIES, "Set Species")
 	VV_DROPDOWN_OPTION(VV_HK_PURGE_PARTOF_SLOT, "Purge Part of Slot")
 	VV_DROPDOWN_OPTION(VV_HK_PURGE_SLOT, "Purge Slot")
@@ -733,10 +781,6 @@
 		if(!client || !client.prefs)
 			return
 		client.prefs.copy_to(src, TRUE, FALSE)
-	if(href_list[VV_HK_COPY_OUTFIT])
-		if(!check_rights(R_SPAWN))
-			return
-		copy_outfit()
 	if(href_list[VV_HK_SET_SPECIES])
 		if(!check_rights(R_SPAWN))
 			return
@@ -1041,16 +1085,6 @@
 	if(!(mobility_flags & MOBILITY_CANSTAND) && mouth?.spitoutmouth)
 		visible_message(span_warning("[src] spits out [mouth]."))
 		dropItemToGround(mouth, silent = FALSE)
-
-/*/mob/living/carbon/human/proc/update_heretic_commune()
-	if(HAS_TRAIT(src, TRAIT_COMMIE) || HAS_TRAIT(src, TRAIT_CABAL) || HAS_TRAIT(src, TRAIT_HORDE) || HAS_TRAIT(src, TRAIT_DEPRAVED))
-		verbs |= /mob/living/carbon/human/verb/commune
-		verbs |= /mob/living/carbon/human/verb/show_heretics
-		verbs |= /mob/living/carbon/human/verb/bad_omen
-	else
-		verbs -= /mob/living/carbon/human/verb/commune
-		verbs -= /mob/living/carbon/human/verb/show_heretics
-		verbs -= /mob/living/carbon/human/verb/bad_omen*/
 
 /mob/living/carbon/human/Topic(href, href_list)
 	..()

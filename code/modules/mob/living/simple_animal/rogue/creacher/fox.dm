@@ -15,6 +15,8 @@
 	move_to_delay = 3
 	base_intents = list(/datum/intent/simple/bite/volf)	//Same as volf, simplicity is key
 	aggressive = 1
+	threat_point = THREAT_TRASH
+	ambush_faction = "wildlife"
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1, /obj/item/alch/viscera = 1, /obj/item/natural/bone = 3)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 2,
 						/obj/item/natural/hide = 1,
@@ -29,8 +31,8 @@
 						/obj/item/alch/bone = 1,
 						/obj/item/alch/viscera = 1,
 						/obj/item/natural/fur/fox = 2,
-						/obj/item/natural/bone = 4,
-						/obj/item/natural/head/fox = 1)
+						/obj/item/natural/bone = 4)
+	head_butcher = /obj/item/natural/head/fox
 	faction = list("wolfs", "zombie")
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	remains_type = /obj/effect/decal/remains/fox

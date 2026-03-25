@@ -6,7 +6,7 @@
 	overlay_state = "rune0"
 	range = 7
 	sound = list('sound/magic/magnet.ogg')
-	releasedrain = 40
+	releasedrain = SPELLCOST_CONJURE
 	chargetime = 60
 	warnie = "spellwarning"
 	no_early_release = TRUE
@@ -23,6 +23,12 @@
 	var/spellsgranted = FALSE
 /obj/effect/proc_holder/spell/invoked/conjure_primordial/cast(list/targets, mob/living/user)
 	. = ..()
+
+	if(istype(get_area(user), /area/rogue/indoors/ravoxarena))
+		to_chat(user, span_userdanger("I reach for outer help, but something rebukes me! This challenge is only for me to overcome!"))
+		revert_cast()
+		return
+
 	if(length(conjured_mobs) >= 2)
 		to_chat(user, span_warning("You can not possibly maintain your focus on any more primordials!"))
 		revert_cast()

@@ -1,6 +1,7 @@
 /obj/effect/proc_holder/spell/invoked/order
 	name = ""
-	range = 1
+	range = 5
+	ignore_los = TRUE // this is an aoe
 	associated_skill = /datum/skill/misc/athletics
 	devotion_cost = 0
 	chargedrain = 1
@@ -24,11 +25,13 @@
 			affectedjobs = list("Knight", "Squire")
 		else if(user.job == "Wretch")
 			affectedjobs = list("Brother")
+		else if(user.job == "Migrant")
+			affectedjobs = list("Heartfelt Retinue", "Migrant")
 		else //failsafe in case someone somehow gets the spells without a role that uses them
 			to_chat(user, span_alert("I don't have authority to order anyone!"))
 			revert_cast()
 			return FALSE
-		for(var/mob/living/carbon/target in view(5, get_turf(user)))
+		for(var/mob/living/carbon/target in view(range, get_turf(user)))
 			if(target.job in affectedjobs)
 				affectedtargets += target
 				continue

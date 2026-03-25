@@ -1,22 +1,27 @@
 // Ultra easy tier skeleton with no armor and just a single weapon.
 /mob/living/carbon/human/species/skeleton/npc/supereasy
+	threat_point = THREAT_LOW
 	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/supereasy
 
 // Easy tier skeleton, with only incomplete chainmail and kilt
 // Ambushes people in "safe" route. A replacement for old skeletons that were effectively naked.
 /mob/living/carbon/human/species/skeleton/npc/easy
+	threat_point = THREAT_MODERATE
 	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/easy
 
 // Also an "easy" tier skeleton, pirate themed, with a free hand to grab you
 /mob/living/carbon/human/species/skeleton/npc/pirate
+	threat_point = THREAT_MODERATE
 	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/pirate
 
 // Medium tier skeleton, 3 skills.
 /mob/living/carbon/human/species/skeleton/npc/medium
+	threat_point = THREAT_LOW
 	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/medium
 
 // High tier skeleton, 4 skills. Heavy Armor.
 /mob/living/carbon/human/species/skeleton/npc/hard
+	threat_point = THREAT_TOUGH
 	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/hard
 
 // For Duke Manor & Zizo Manor - Ground based spread, so no pirate in pool!
@@ -49,6 +54,13 @@
 		if(4)
 			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/hard
 	..()
+
+// For Tomb of Matthios/Tomb of Alothesos Supreme Difficulty:TM: encounters.
+/mob/living/carbon/human/species/skeleton/npc/special/vile_doctor
+	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/vile_doctor
+
+/mob/living/carbon/human/species/skeleton/npc/special/disgraced_noble
+	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/disgraced_noble
 
 /datum/outfit/job/roguetown/skeleton/npc/supereasy/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -136,7 +148,7 @@
 	if(prob(50))
 		r_hand = /obj/item/rogueweapon/huntingknife/idagger/adagger
 	else
-		r_hand = /obj/item/rogueweapon/knuckles/aknuckles
+		gloves = /obj/item/clothing/gloves/roguetown/knuckles/decrepit
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
@@ -237,3 +249,77 @@
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
+
+/datum/outfit/job/roguetown/skeleton/npc/vile_doctor/pre_equip(mob/living/carbon/human/H)
+	..()
+	H.STASTR = 12
+	H.STACON = 11 // Woe, actual limb health.
+	H.STAWIL = 12
+	H.STASPD = 14 // that dagger WILL get thru ur parry.
+	H.STAINT = 1
+	name = "Vile Doctor"
+	mask = /obj/item/clothing/mask/rogue/sack
+	head = /obj/item/clothing/head/roguetown/physician
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+	armor = /obj/item/clothing/suit/roguetown/shirt/robe/physician
+	pants = /obj/item/clothing/under/roguetown/trou/leather/courtphysician
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
+	gloves = /obj/item/clothing/gloves/roguetown/leather/black
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
+	r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/rondel
+	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
+
+/datum/outfit/job/roguetown/skeleton/npc/disgraced_noble/pre_equip(mob/living/carbon/human/H)
+	..()
+	H.STASTR = 12 // stabs quick, stabs strong.
+	H.STACON = 11
+	H.STAWIL = 12
+	H.STASPD = 12
+	H.STAINT = 1
+	name = "Disgraced Ancient Noble"
+	var/skeletonclass = rand(0,2) // lets shake it up a little :3
+	belt = /obj/item/storage/belt/rogue/leather/black
+	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
+	l_hand = /obj/item/rogueweapon/sword/rapier/dec
+	pants = /obj/item/clothing/under/roguetown/platelegs/aalloy
+	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy/heavy
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
+	head = /obj/item/clothing/head/roguetown/chaperon/noble/evil
+	cloak = /obj/item/clothing/cloak/half/red
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
+	gloves = /obj/item/clothing/gloves/roguetown/plate/aalloy
+
+	if(skeletonclass == 0) // "standard"
+		id = /obj/item/clothing/ring/onyxa
+		shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+		mask = /obj/item/clothing/mask/rogue/sack
+	if(skeletonclass == 1)
+		id = /obj/item/clothing/ring/gold// slightly better
+		H.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE) // 5 total.
+		r_hand = /obj/item/rogueweapon/shield/tower/metal/alloy // and a shield to go with it
+	if(skeletonclass == 2)
+		id = /obj/item/clothing/ring/coral // +30 value compared to onyx btw
+		H.adjust_skillrank(H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)) // hardest, probably
+		mask = /obj/item/clothing/mask/rogue/facemask // nose crits not as easy
+	
+	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
+

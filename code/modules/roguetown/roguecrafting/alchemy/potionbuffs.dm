@@ -72,6 +72,10 @@
 	name = STATKEY_LCK
 	icon_state = "buff"
 
+//////////////////////
+// NON-STAT BUFFS ! //
+//////////////////////
+
 /datum/status_effect/buff/alch/fire_resist
 	id = "fire resistance"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/alch/fire_resist

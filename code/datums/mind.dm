@@ -49,12 +49,19 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 
 	/// Wizard mode & "Give Spell" badmin button.
 	var/list/spell_list = list()
+	/// Whether this mind has arcyne momentum (persists through death)
+	var/has_arcyne_momentum = FALSE
 
 	var/spell_points
 	var/used_spell_points
+	var/list/spell_point_pools
+	var/list/spell_points_used_by_pool
 	var/movemovemovetext = "Move!!"
 	var/takeaimtext = "Take aim!!"
 	var/holdtext = "Hold!!"
+	var/retreattext = "Fall back!!"
+	var/chargetext = "Charge!!"
+	var/bolstertext = "Hold the line!!"
 	var/onfeettext = "On your feet!!"
 
 	var/mob/living/carbon/champion = null
@@ -136,6 +143,11 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 
 /datum/mind/Destroy()
 	SSticker.minds -= src
+	soulOwner = null
+	if(current)
+		current.mind = null
+		current = null
+	enslaved_to = null
 	QDEL_NULL(sleep_adv)
 	if(islist(antag_datums))
 		QDEL_LIST(antag_datums)
@@ -348,14 +360,33 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 
 		new_character.key = key		//now transfer the key to link the client to our new body
 	new_character.update_fov_angles()
-	SEND_SIGNAL(old_current, COMSIG_MIND_TRANSFER, new_character)
+
+	SEND_SIGNAL(src, COMSIG_MIND_TRANSFERRED, old_current)
+	SEND_SIGNAL(new_character, COMSIG_MOB_MIND_TRANSFERRED_INTO, old_current)
+	if(!isnull(old_current))
+		SEND_SIGNAL(old_current, COMSIG_MOB_MIND_TRANSFERRED_OUT_OF, current)
 
 // adjusts the amount of available spellpoints
 /datum/mind/proc/adjust_spellpoints(points)
 	spell_points += points
 	if(!has_spell(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation))
 		AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
-	check_learnspell() //check if we need to add or remove the learning spell
+	check_learnspell()
+
+/datum/mind/proc/set_spell_point_pools(list/pools)
+	spell_point_pools = pools.Copy()
+	spell_points_used_by_pool = list()
+	for(var/pool_name in pools)
+		spell_points_used_by_pool[pool_name] = 0
+	if(!has_spell(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation))
+		AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+	check_learnspell()
+
+/datum/mind/proc/adjust_spell_point_pool(pool_name, points)
+	if(!LAZYLEN(spell_point_pools) || !(pool_name in spell_point_pools))
+		return
+	spell_point_pools[pool_name] += points
+	check_learnspell()
 
 /datum/mind/proc/set_death_time()
 	last_death = world.time
@@ -745,31 +776,76 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		add_antag_datum(/datum/antagonist/traitor)
 
 
-/datum/mind/proc/AddSpell(obj/effect/proc_holder/spell/S, mob/living/user)
-	if(!S)
+/datum/mind/proc/AddSpell(datum/spell_or_action, mob/living/user)
+	if(!spell_or_action)
 		return
+
+	// New action-based spell system
+	if(istype(spell_or_action, /datum/action/cooldown/spell))
+		var/datum/action/cooldown/spell/new_spell = spell_or_action
+		for(var/datum/action/cooldown/spell/present in spell_list)
+			if(present.name == new_spell.name && present.type == new_spell.type)
+				return
+		spell_list += new_spell
+		new_spell.Grant(current)
+		if(length(spell_list) == 1 && current)
+			addtimer(CALLBACK(src, PROC_REF(show_spell_tip)), 3 SECONDS)
+		return
+
+	// Old proc_holder spell system
+	var/obj/effect/proc_holder/spell/S = spell_or_action
+	for(var/obj/effect/proc_holder/spell/present_spell in spell_list)
+		if(present_spell.name == S.name && present_spell.type == S.type)
+			return
 	spell_list += S
 	S.action.Grant(current)
 	if(user)
 		S.on_gain(user)
+	if(length(spell_list) == 1 && current)
+		addtimer(CALLBACK(src, PROC_REF(show_spell_tip)), 3 SECONDS)
+
+/datum/mind/proc/show_spell_tip()
+	if(current)
+		to_chat(current, span_nicegreen("Tip: You can Ctrl-Click your hotkey bar to unlock it, then drag to rearrange your spells. Re-arranging them change which hotkeys they are bound to in order from left to right (Alt 1 to Alt 9 default). You can shift click your spells to learn more about them."))
 
 /datum/mind/proc/check_learnspell()
-	if(!has_spell(/obj/effect/proc_holder/spell/self/learnspell)) //are we missing the learning spell?
-		if((spell_points - used_spell_points) > 0) //do we have points?
-			AddSpell(new /obj/effect/proc_holder/spell/self/learnspell(null)) //put it in
+	// Pool-based system always takes priority over flat spellpoints to prevent unexpected spell point sources from bypassing pool restrictions
+	if(LAZYLEN(spell_point_pools))
+		var/has_remaining = FALSE
+		for(var/pool_name in spell_point_pools)
+			var/used = spell_points_used_by_pool?[pool_name] || 0
+			if(used < spell_point_pools[pool_name])
+				has_remaining = TRUE
+				break
+		if(has_remaining && !has_spell(/obj/effect/proc_holder/spell/self/learnspell))
+			AddSpell(new /obj/effect/proc_holder/spell/self/learnspell(null))
+		else if(!has_remaining)
+			RemoveSpell(/obj/effect/proc_holder/spell/self/learnspell)
+		return
+
+	if(!has_spell(/obj/effect/proc_holder/spell/self/learnspell))
+		if((spell_points - used_spell_points) > 0)
+			AddSpell(new /obj/effect/proc_holder/spell/self/learnspell(null))
 			return
 
-	if((spell_points - used_spell_points) <= 0) //are we out of points?
-		RemoveSpell(/obj/effect/proc_holder/spell/self/learnspell) //bye bye spell
+	if((spell_points - used_spell_points) <= 0)
+		RemoveSpell(/obj/effect/proc_holder/spell/self/learnspell)
 		return
 	return
 
 /datum/mind/proc/has_spell(spell_type, specific = FALSE)
+	// Extract type from instance if passed one
 	if(istype(spell_type, /obj/effect/proc_holder))
 		var/obj/instanced_spell = spell_type
 		spell_type = instanced_spell.type
-	for(var/obj/effect/proc_holder/spell as anything in spell_list)
-		if((specific && spell.type == spell_type) || istype(spell, spell_type))
+	else if(istype(spell_type, /datum/action/cooldown/spell))
+		var/datum/action/cooldown/spell/instanced_spell = spell_type
+		spell_type = instanced_spell.type
+
+	for(var/datum/spell as anything in spell_list)
+		if(specific && spell.type == spell_type)
+			return TRUE
+		else if(!specific && istype(spell, spell_type))
 			return TRUE
 	return FALSE
 
@@ -778,8 +854,12 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	if(istype(spell_type, /obj/effect/proc_holder))
 		var/obj/effect/proc_holder/instanced_spell = spell_type
 		spell_path = instanced_spell.type
-	for(var/obj/effect/proc_holder/spell as anything in spell_list)
-		if(specific && (spell.type == spell_path))
+	else if(istype(spell_type, /datum/action/cooldown/spell))
+		var/datum/action/cooldown/spell/instanced_spell = spell_type
+		spell_path = instanced_spell.type
+
+	for(var/datum/spell as anything in spell_list)
+		if(specific && spell.type == spell_path)
 			return spell
 		else if(!specific && istype(spell, spell_path))
 			return spell
@@ -789,21 +869,40 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	return soulOwner == src
 
 //To remove a specific spell from a mind
-/datum/mind/proc/RemoveSpell(obj/effect/proc_holder/spell/spell)
-	var/success = FALSE
+/datum/mind/proc/RemoveSpell(datum/spell)
 	if(!spell)
 		return FALSE
+
+	// Handle new action-based spells
+	if(istype(spell, /datum/action/cooldown/spell))
+		var/datum/action/cooldown/spell/action_spell = spell
+		for(var/datum/action/cooldown/spell/S in spell_list)
+			if(S.name == action_spell.name && S.type == action_spell.type)
+				spell_list -= S
+				qdel(S)
+				return TRUE
+		// Also try matching by type path (when passed a typepath-instantiated reference)
+		for(var/datum/action/cooldown/spell/S in spell_list)
+			if(S.type == action_spell.type)
+				spell_list -= S
+				qdel(S)
+				return TRUE
+		return FALSE
+
+	// Handle old proc_holder spells
+	var/obj/effect/proc_holder/spell/proc_spell = spell
 	for(var/X in spell_list)
+		if(!istype(X, /obj/effect/proc_holder/spell))
+			continue
 		var/obj/effect/proc_holder/spell/S = X
-		if(S.name == spell.name && S.type == spell.type) //match by name and type to avoid issues with multiple instances of the same spell
+		if(S.name == proc_spell.name && S.type == proc_spell.type)
 			spell_list -= S
 			qdel(S)
-			success = TRUE
-			return TRUE // We're deleting only one spell
-	return success
+			return TRUE
+	return FALSE
 
 /datum/mind/proc/RemoveAllSpells()
-	for(var/obj/effect/proc_holder/S in spell_list)
+	for(var/datum/S in spell_list)
 		RemoveSpell(S)
 
 /datum/mind/proc/transfer_martial_arts(mob/living/new_character)
@@ -823,18 +922,41 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 
 /datum/mind/proc/transfer_mindbound_actions(mob/living/new_character)
 	for(var/X in spell_list)
-		var/obj/effect/proc_holder/spell/S = X
-		S.action.Grant(new_character)
+		// New action-based spells ARE actions — grant them directly
+		if(istype(X, /datum/action/cooldown/spell))
+			var/datum/action/cooldown/spell/action_spell = X
+			action_spell.Grant(new_character)
+		// Old proc_holder spells have a separate action wrapper
+		else if(istype(X, /obj/effect/proc_holder/spell))
+			var/obj/effect/proc_holder/spell/S = X
+			S.action?.Grant(new_character)
 
 /datum/mind/proc/disrupt_spells(delay, list/exceptions = New())
 	for(var/X in spell_list)
-		var/obj/effect/proc_holder/spell/S = X
-		for(var/type in exceptions)
-			if(istype(S, type))
+		// New action-based spells use cooldown system
+		if(istype(X, /datum/action/cooldown/spell))
+			var/datum/action/cooldown/spell/action_spell = X
+			var/dominated = FALSE
+			for(var/type in exceptions)
+				if(istype(action_spell, type))
+					dominated = TRUE
+					break
+			if(dominated)
 				continue
-		S.charge_counter = delay
-		S.updateButtonIcon()
-		INVOKE_ASYNC(S, TYPE_PROC_REF(/obj/effect/proc_holder/spell, start_recharge))
+			action_spell.StartCooldownSelf(delay)
+		// Old proc_holder spells use charge_counter recharge system
+		else if(istype(X, /obj/effect/proc_holder/spell))
+			var/obj/effect/proc_holder/spell/S = X
+			var/dominated = FALSE
+			for(var/type in exceptions)
+				if(istype(S, type))
+					dominated = TRUE
+					break
+			if(dominated)
+				continue
+			S.charge_counter = delay
+			S.action?.build_all_button_icons()
+			INVOKE_ASYNC(S, TYPE_PROC_REF(/obj/effect/proc_holder/spell, start_recharge))
 
 /datum/mind/proc/get_ghost(even_if_they_cant_reenter, ghosts_with_clients)
 	for(var/mob/dead/observer/G in (ghosts_with_clients ? GLOB.player_list : GLOB.dead_mob_list))
@@ -891,6 +1013,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	if(!mind.name)
 		mind.name = real_name
 	mind.current = src
+	AddComponent(/datum/component/area_ambience)
 
 /mob/living/carbon/mind_initialize()
 	..()
@@ -949,7 +1072,24 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 						user.mind.special_items -= item
 						var/obj/item/I = new path2item(user.loc)
 						user.put_in_hands(I)
-						if (istype(I, /obj/item/clothing)) // commit any pref dyes to our item if it is clothing and we have them available
-							var/dye = user.client?.prefs.resolve_loadout_to_color(path2item)
-							if (dye)
-								I.add_atom_colour(dye, FIXED_COLOUR_PRIORITY)
+						// Apply loadout-specific properties only if this is a loadout item
+						var/list/metadata = user.client?.prefs?.gear_list?[item]
+						if(islist(metadata))
+							// Free loadout items cannot be sold, smelted, or salvaged (triumph items are exempt)
+							var/datum/loadout_item/LI = GLOB.loadout_items_by_name[item]
+							if(!LI?.triumph_cost)
+								I.sellprice = 0
+								I.smeltresult = null
+								I.salvage_result = null
+							// Apply metadata (color, custom name, custom desc)
+							if(metadata["color"])
+								I.add_atom_colour(metadata["color"], FIXED_COLOUR_PRIORITY)
+							if(metadata["detail_color"] && I.detail_tag)
+								I.detail_color = metadata["detail_color"]
+							if(metadata["altdetail_color"] && I.altdetail_tag)
+								I.altdetail_color = metadata["altdetail_color"]
+							if(metadata["custom_name"])
+								I.name = metadata["custom_name"]
+							if(metadata["custom_desc"])
+								I.desc = metadata["custom_desc"]
+							I.update_icon()

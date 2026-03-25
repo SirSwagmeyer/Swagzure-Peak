@@ -4,7 +4,7 @@
 	cost = 3
 	overlay_state = "hierophant"
 	xp_gain = TRUE
-	releasedrain = 20
+	releasedrain = SPELLCOST_SINGLE_CC
 	chargedrain = 1
 	chargetime = 10
 	recharge_time = 20 SECONDS
@@ -20,6 +20,7 @@
 	glow_color = GLOW_COLOR_DISPLACEMENT
 	glow_intensity = GLOW_INTENSITY_MEDIUM
 	gesture_required = TRUE
+	human_req = TRUE // Combat spell
 	range = 7
 	var/delay = 5
 	var/damage = 0 // damage based off your str
@@ -46,9 +47,12 @@
 		new /obj/effect/temp_visual/gravity(affected_turf)
 		for(var/mob/living/L in affected_turf.contents)
 			if(L.anti_magic_check())
-				visible_message(span_warning("The gravity fades away around you [L] "))  //antimagic needs some testing
+				L.visible_message(span_warning("The gravity fades away around [L]!"))
 				playsound(get_turf(L), 'sound/magic/magic_nulled.ogg', 100)
-				return TRUE
+				continue
+			if(spell_guard_check(L, TRUE))
+				L.visible_message(span_warning("[L] stands firm against the crushing force!"))
+				continue
 
 			var/mark_stacks = consume_arcane_mark_stacks(L)
 			extra_time = (mark_stacks*4)

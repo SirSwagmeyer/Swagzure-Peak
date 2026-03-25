@@ -18,7 +18,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	spawn_positions = 1
 	selection_color = JCOLOR_CHURCH
 	f_title = "Bishop"
-	allowed_races = RACES_NO_CONSTRUCT		//Too recent arrivals to ascend to priesthood.
+	allowed_races = RACES_SHUNNED_UP		//Too recent arrivals to ascend to priesthood.
 	allowed_patrons = ALL_DIVINE_PATRONS
 	allowed_sexes = list(MALE, FEMALE)
 	tutorial = "The Divine is all that matters in a world of the immoral. The Weeping God abandoned us, and in his stead the TEN rule over us mortals--and you will preach their wisdom to any who still heed their will. The faithless are growing in number. It is up to you to shepherd them toward a Gods-fearing future; for you are a Bishop of the Holy See."
@@ -99,7 +99,8 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		/obj/item/ritechalk = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/steel/holysee = 1,	//Unique knife from the Holy See
 		/obj/item/rogueweapon/scabbard/sheath = 1,
-		/obj/item/clothing/neck/roguetown/psicross/undivided = 1
+		/obj/item/clothing/neck/roguetown/psicross/undivided = 1,
+		/obj/item/mini_flagpole/church,
 	)
 	H.AddComponent(/datum/component/wise_tree_alert)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron) // This creates the cleric holder used for devotion spells
@@ -307,13 +308,13 @@ GLOBAL_LIST_EMPTY(heretical_players)
 			continue
 
 		//Abdicate previous King
+		var/emeritus_title = "[SSticker.rulertype || "Duke"] Emeritus"
 		for(var/mob/living/carbon/human/HL in GLOB.human_list)
 			if(HL.mind)
 				if(HL.mind.assigned_role == "Grand Duke")
 					HL.mind.assigned_role = "Towner" //So they don't get the innate traits of the king
-			//would be better to change their title directly, but that's not possible since the title comes from the job datum
 			if(HL.job == "Grand Duke")
-				HL.job = "Duke Emeritus"
+				HL.job = emeritus_title
 
 		//Coronate new King (or Queen)
 		HU.mind.assigned_role = "Grand Duke"
@@ -322,9 +323,11 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		SSticker.set_ruler_mob(HU)
 		SSticker.regentmob = null
 		var/dispjob = mind.assigned_role
+		var/realm = SSticker.realm_name || "Azure Peak"
+		var/ruler_title = SSticker.rulertype || "Grand Duke"
 		removeomen(OMEN_NOLORD)
-		say("By the authority of the gods, I pronounce you Ruler of all Azuria!")
-		priority_announce("[real_name] the [dispjob] has named [HU.real_name] the inheritor of AZURE PEAK!", title = "Long Live [HU.real_name]!", sound = 'sound/misc/bell.ogg')
+		say("By the authority of the gods, I pronounce you [ruler_title] of [realm]!")
+		priority_announce("[real_name] the [dispjob] has named [HU.real_name] the [ruler_title] of [realm]!", title = "Long Live [HU.real_name]!", sound = 'sound/misc/bell.ogg')
 		var/datum/job/roguetown/nomoredukes = SSjob.GetJob("Grand Duke")
 		if(nomoredukes)
 			nomoredukes.total_positions = -1000 //We got what we got now.
@@ -348,10 +351,12 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		if (!COOLDOWN_FINISHED(src, priest_announcement))
 			to_chat(src, span_warning("You must wait before speaking again."))
 			return
-		visible_message(span_warning("[src] takes a deep breath, preparing to make an announcement.."))
+		visible_message(span_warning("[src] takes a deep breath, preparing to make an announcement."))
 		if(do_after(src, 15 SECONDS, target = src)) // Reduced to 15 seconds from 30 on the original Herald PR. 15 is well enough time for sm1 to shove you.
 			say(announcementinput)
-			priority_announce("[announcementinput]", "The Bishop Preaches", 'sound/misc/bell.ogg', sender = src)
+			var/sanitized_input = trim(copytext(sanitize(announcementinput), 1, MAX_MESSAGE_LEN))
+			var/treated_input = treat_message(sanitized_input, /datum/language/common)
+			priority_announce("[treated_input]", "The Bishop Preaches", 'sound/misc/bell.ogg', sender = src)
 			COOLDOWN_START(src, priest_announcement, PRIEST_ANNOUNCEMENT_COOLDOWN)
 		else
 			to_chat(src, span_warning("Your announcement was interrupted!"))

@@ -12,7 +12,6 @@
 /mob/living/carbon/human/on_cmode()
 	if(!cmode)	//We just toggled it off.
 		addtimer(CALLBACK(src, PROC_REF(purge_bait)), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
-		addtimer(CALLBACK(src, PROC_REF(expire_peel)), 60 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 		addtimer(CALLBACK(src, PROC_REF(clear_tempo_all)), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 	if(!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 		filtered_balloon_alert(TRAIT_COMBAT_AWARE, (cmode ? ("<i><font color = '#831414'>Tense</font></i>") : ("<i><font color = '#c7c6c6'>Relaxed</font></i>")), y_offset = 32)
@@ -46,7 +45,7 @@
 	if(HT.has_status_effect(/datum/status_effect/debuff/baited) || user.has_status_effect(/datum/status_effect/debuff/baitcd))
 		return	//We don't do anything if either of us is affected by bait statuses
 
-	if(!HT.can_see_cone(user) && HT.mind)
+	if(!HT.can_see_cone(user) && HT.mind && HT.get_tempo_bonus(TEMPO_TAG_FEINTBAIT_FOV))
 		newcd = 5 SECONDS
 		to_chat(user, span_notice("[HT.p_they()] didn't see me! Nothing happened!"))
 		HU.apply_status_effect(/datum/status_effect/debuff/baitcd, newcd)
@@ -84,6 +83,7 @@
 	HT.apply_status_effect(/datum/status_effect/debuff/exposed)
 	HT.apply_status_effect(/datum/status_effect/debuff/clickcd, 5 SECONDS)
 	HT.bait_stacks++
+	HT.reset_desert_rider_momentum_tier()
 
 	if(HT.has_status_effect(/datum/status_effect/buff/clash/limbguard))
 		HT.bad_guard()
@@ -93,7 +93,6 @@
 		HT.stamina_add(HT.max_stamina / fatiguemod)
 		HT.Slowdown(3)
 		HT.emote("huh")
-		HU.purge_peel(BAIT_PEEL_REDUCTION)
 		HU.changeNext_move(0.1 SECONDS, override = TRUE)
 		to_chat(HU, span_notice("[HT.p_they(TRUE)] fell for my bait <b>perfectly</b>! One more!"))
 		to_chat(HT, span_danger("I fall for [HU.p_their()]'s bait <b>perfectly</b>! I'm losing my footing! <b>I can't let this happen again!</b>"))
@@ -137,17 +136,29 @@
 	user.face_atom(target)
 
 	var/obj/item/rogueweapon/W = user.get_active_held_item()
+	var/datum/special_intent/active_special
+	var/skillreq
+
 	if(istype(W, /obj/item/rogueweapon) && W.special)
-		var/skillreq = W.associated_skill
-		if(W.special.custom_skill)
-			skillreq = W.special.custom_skill
+		active_special = W.special
+		skillreq = W.associated_skill
+	else if(!W && ishuman(user))
+		var/mob/living/carbon/human/HU = user
+		if(HU.unarmed_special)
+			active_special = HU.unarmed_special
+			skillreq = /datum/skill/combat/unarmed
+
+	if(active_special)
+		if(active_special.custom_skill)
+			skillreq = active_special.custom_skill
 		if(!HAS_TRAIT(user, TRAIT_BATTLEMASTER))
 			if(user.get_skill_level(skillreq) < SKILL_LEVEL_JOURNEYMAN)
 				to_chat(user, span_info("I'm not knowledgeable enough in the arts of this weapon to use this."))
 				return
-		if(W.special.check_range(user, target))
-			if(W.special.apply_cost(user))
-				W.special.deploy(user, W, target)
+		var/atom/parent = W ? W : user
+		if(active_special.check_range(user, target) && active_special.check_reqs(user, parent))
+			if(active_special.apply_cost(user))
+				active_special.deploy(user, parent, target)
 
 /datum/rmb_intent/swift
 	name = "swift"
@@ -195,16 +206,16 @@
 	skill_factor = (ourskill - theirskill)/2
 
 	var/special_msg
-	var/newcd = (BASE_RCLICK_CD - user.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS)) + feintdur
+	var/newcd = (FEINT_RCLICK_CD - user.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS))
 
-	if(L.has_status_effect(/datum/status_effect/debuff/exposed))
+	if(L.has_status_effect(/datum/status_effect/debuff/exposed) || L.has_status_effect(/datum/status_effect/debuff/vulnerable))
 		perc = 0
 
 	if(L.has_status_effect(/datum/status_effect/debuff/feinted))
 		perc = 0
 		special_msg = span_warning("Too soon! They were expecting it!")
 
-	if(!L.can_see_cone(user) && L.mind)
+	if(!L.can_see_cone(user) && L.mind && L.get_tempo_bonus(TEMPO_TAG_FEINTBAIT_FOV))
 		perc = 0
 		newcd = 5 SECONDS
 		special_msg = span_warning("They need to see me for me to feint them!")
@@ -223,13 +234,16 @@
 	if(L.has_status_effect(/datum/status_effect/buff/clash))
 		L.remove_status_effect(/datum/status_effect/buff/clash)
 		to_chat(user, span_notice("[L.p_their(TRUE)] Guard disrupted!"))
-	L.apply_status_effect(/datum/status_effect/debuff/exposed, feintdur)
+	
+	var/effect_to_apply = (L.mind ? /datum/status_effect/debuff/vulnerable : /datum/status_effect/debuff/exposed)
+
+	L.apply_status_effect(effect_to_apply, feintdur)
 	L.apply_status_effect(/datum/status_effect/debuff/clickcd, max(1.5 SECONDS + skill_factor, 2.5 SECONDS))
-	L.apply_status_effect(/datum/status_effect/debuff/feinted, newcd)
 	L.Immobilize(0.5 SECONDS)
 	L.stamina_add(L.stamina * 0.1)
 	L.Slowdown(2)
 
+	user.changeNext_move(CLICK_CD_FAST)	//We don't want the feint effect to be popped instantly.
 	user.apply_status_effect(/datum/status_effect/debuff/feintcd, newcd)
 	to_chat(user, span_notice("[L.p_they(TRUE)] fell for my feint attack!"))
 	to_chat(L, span_danger("I fall for [user.p_their()] feint attack!"))
@@ -243,22 +257,10 @@
 	adjacency = FALSE
 	bypasses_click_cd = TRUE
 
-/datum/rmb_intent/riposte/special_attack(mob/living/user, atom/target)	//Wish we could breakline these somehow.
-	if(!user.has_status_effect(/datum/status_effect/buff/clash) && !user.has_status_effect(/datum/status_effect/debuff/clashcd) && !user.has_status_effect(/datum/status_effect/buff/clash/limbguard))
-		if(!user.get_active_held_item()) //Nothing in our hand to Guard with.
-			return 
-		if(user.r_grab || user.l_grab || length(user.grabbedby)) //Not usable while grabs are in play.
-			return
-		if(user.IsImmobilized() || user.IsOffBalanced()) //Not usable while we're offbalanced or immobilized
-			return
-		if(user.m_intent == MOVE_INTENT_RUN)
-			to_chat(user, span_warning("I can't focus on this while running."))
-			return
-		if(user.magearmor == 0 && HAS_TRAIT(user, TRAIT_MAGEARMOR))	//The magearmor is ACTIVE, so we break magearmor to guard.
-			user.magearmor = 1
-			user.apply_status_effect(/datum/status_effect/buff/magearmor)
-			to_chat(user, span_warning("I drop my Mage Armor to protect myself!"))
-		user.apply_status_effect(/datum/status_effect/buff/clash)
+/datum/rmb_intent/riposte/special_attack(mob/living/user, atom/target)
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		H.try_guard()
 
 /datum/rmb_intent/guard
 	name = "guarde"
@@ -270,11 +272,9 @@
 	desc = "Your attacks have -1 strength and will never critically-hit. Useful for longer punishments, play-fighting, and bloodletting.\nRight click will attempt to steal from the target."
 	icon_state = "rmbweak"
 
-/datum/rmb_intent/weak/special_attack(mob/living/user, atom/target)
-	if(!target.Adjacent(user))
+/datum/rmb_intent/weak/special_attack(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	if(!istype(target) || !istype(user) || !target.Adjacent(user))
 		return
-	if(!ishuman(user) || !ishuman(target))
-		return
-	var/mob/living/carbon/human/H = user
-	H.attempt_steal(user, target)
-	. = ..()
+	
+	user.attempt_steal(user, target)
+	return ..()

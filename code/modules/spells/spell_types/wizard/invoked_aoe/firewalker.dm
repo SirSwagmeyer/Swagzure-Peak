@@ -5,7 +5,7 @@
 	The ground under your feet will burn!"
 	cost = 4
 	xp_gain = TRUE
-	releasedrain = 30
+	releasedrain = SPELLCOST_MAJOR_AOE
 	chargedrain = 1
 	chargetime = 0.5 SECONDS
 	recharge_time = 45 SECONDS
@@ -20,6 +20,7 @@
 	charging_slowdown = 2
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
+	human_req = TRUE // Combat spell
 
 /obj/effect/proc_holder/spell/invoked/firewalker/cast(list/targets, mob/living/user = usr)
 	. = ..()

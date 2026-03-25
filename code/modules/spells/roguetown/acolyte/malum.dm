@@ -69,7 +69,7 @@
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
 	recharge_time = 5 MINUTES
-	chargetime = 2 SECONDS
+	chargetime = 3 SECONDS // Used to be 2 seconds but we don't want a race condition and chain casting
 	miracle = TRUE
 	charging_slowdown = 3
 	chargedloop = /datum/looping_sound/invokegen
@@ -96,6 +96,9 @@
 	for (var/mob/living/carbon/screenshaken in view(shakeradius, fallzone))
 		shake_camera(screenshaken, 5, 5)
 	for (var/mob/living/carbon/shaken in view(radius, fallzone))
+		if(spell_guard_check(shaken, TRUE))
+			shaken.visible_message(span_warning("[shaken] braces against the quake!"))
+			continue
 		diceroll = roll(2,20) + shaken.STAPER + shaken.STASPD
 		if (diceroll > dc)
 			shaken.apply_effect(1 SECONDS, EFFECT_IMMOBILIZE, 0)
@@ -111,6 +114,7 @@
 	for (var/turf/closed/mineral/aoemining in view(radius, fallzone))
 		aoemining.lastminer = usr
 		aoemining.take_damage(damage,BRUTE,"blunt",1)
+	return TRUE
 
 /obj/effect/temp_visual/lavastaff
 	icon_state = "lavastaff_warn"
@@ -156,6 +160,10 @@
 	if (istype(target, /obj/item))
 		handle_item_smelting(target, user, sparks, nosmeltore)
 	else if (iscarbon(target))
+		if(spell_guard_check(target, TRUE))
+			var/mob/living/carbon/C = target
+			C.visible_message(span_warning("[target] resists the searing heat!"))
+			return
 		handle_living_entity(target, user, nosmeltore)
 
 /proc/show_visible_message(mob/user, text, selftext)
@@ -174,7 +182,7 @@
 
 /proc/handle_living_entity(mob/target, mob/user, list/nosmeltore)
 	var/obj/item/targeteditem = get_targeted_item(user, target)
-	if (!targeteditem || targeteditem.smeltresult == /obj/item/ash || target.anti_magic_check(TRUE,TRUE)) 
+	if (!targeteditem || targeteditem.smeltresult == /obj/item/ash || target.anti_magic_check(TRUE,TRUE))
 		show_visible_message(user, "After their incantation, [user] points at [target] but it seems to have no effect.", "After your incantation, you point at [target] but it seems to have no effect.")
 		return
 	if (istype(targeteditem, /obj/item/rogueweapon/tongs))
@@ -297,11 +305,11 @@
 		return
 	if (target == user)
 		target.energy_add(starminatoregen)
-		show_visible_message(usr, "As [user] intones the incantation, vibrant flames swirl around them.", "As you intones the incantation, vibrant flames swirl around you, You feel refreshed.")
+		show_visible_message(usr, "As [user] intones the incantation, vibrant flames swirl around them.", "As you intone the incantation, vibrant flames swirl around you. You feel refreshed.")
 	else if (user.energy > (starminatoregen * 2))
 		user.energy_add(-(starminatoregen * 2))
 		target.energy_add(starminatoregen * 2)
-		show_visible_message(target, "As [user] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards [target].", "As [user] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards you. You feel refreshed")
+		show_visible_message(target, "As [user] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards [target].", "As [user] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards you. You feel refreshed.")
 
 /obj/effect/proc_holder/spell/invoked/craftercovenant/cast(list/targets, mob/user = usr)
 	. = ..()
@@ -400,7 +408,7 @@ var/global/list/anvil_recipe_prices[][]
 
 //T0
 
-/obj/effect/proc_holder/spell/invoked/rework
+/*/obj/effect/proc_holder/spell/invoked/rework //this whole thing, barely works and fixing it causes only further issues
 	name = "Rework"
 	desc = "Burn a piece of equipment to create a blessing for the appropriate type of equipment. Cast once more on another item to bless it."
 	action_icon = 'icons/mob/actions/malummiracles.dmi'
@@ -558,24 +566,24 @@ var/global/list/anvil_recipe_prices[][]
 /obj/item/rogueweapon/proc/unbuff()
 	force = initial(force)
 	malumblessed_w = FALSE
-	visible_message("<font color='purple'>A holy blessing now not affect on [name]!</font>")
+	visible_message("<font color='purple'>A holy blessing no longer affects [name]!</font>")
 
 /obj/item/clothing/proc/unbuff()
 	max_integrity = initial(max_integrity)
 	obj_integrity = max_integrity/2
 	malumblessed_c = FALSE
-	visible_message("<font color='purple'>A holy blessing now not affect on [name]!</font>")
+	visible_message("<font color='purple'>A holy blessing no longer affects [name]!</font>")*/
 
 /obj/effect/proc_holder/spell/self/repair
 	name = "Order: Repair"
-	desc = "Repair a metal item in your hands."
+	desc = "Repairs metal items on your person." //it literally repairs everything
 	action_icon = 'icons/mob/actions/malummiracles.dmi'
 	overlay_icon = 'icons/mob/actions/malummiracles.dmi'
 	overlay_state = "repair"
 	releasedrain = 30
 	chargedrain = 0
 	chargetime = 0
-	range = 7
+	range = 0
 	warnie = "sydwarning"
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	sound = 'sound/magic/timestop.ogg'
@@ -587,6 +595,7 @@ var/global/list/anvil_recipe_prices[][]
 	miracle = TRUE
 	devotion_cost = 30
 	var/rrange = 0
+	ignore_los = 1 // this uses some other weird shit for range
 
 /obj/effect/proc_holder/spell/self/repair/cast(mob/living/carbon/human/user)
 	var/skill = user.get_skill_level(/datum/skill/magic/holy)
@@ -609,27 +618,22 @@ var/global/list/anvil_recipe_prices[][]
 		if(!do_after(user, 50))
 			repair_points = 0
 			return FALSE
-		I.obj_integrity += one_fix_points
+		I.obj_integrity = min(I.obj_integrity + one_fix_points, I.max_integrity)
 		I.visible_message(span_info("[I] glows in a faint mending light."))
 		user.devotion?.update_devotion(-cost)
 		if(cost != 0)
 			to_chat(user, "<font color='purple'>I lose [cost] devotion!</font>")
 		if(I.max_integrity <= I.obj_integrity)
 			I.obj_fix()
-			if(I.peel_count)
-				I.peel_count--
-				I.visible_message(span_info("[I]'s shorn layers mend together. ([I.peel_count])."))
-				continue
-			else
-				I.repair_coverage()
-				I.visible_message(span_info("[I]'s mend together, completely."))
-				continue
+			I.repair_coverage()
+			I.visible_message(span_info("[I] mend together, completely."))
+			continue
 		if((user.devotion?.devotion - cost) < 0)
 			to_chat(user, span_warning("I do not have enough devotion!"))
 			return FALSE
 		cast(user)
 	revert_cast()
-	return FALSE
+	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/restoration
 	name = "Order: Restoration"
@@ -667,8 +671,8 @@ var/global/list/anvil_recipe_prices[][]
 		if(istype(S, /obj/structure/mineral_door/))
 			var/obj/structure/mineral_door/door = S
 			to_chat(user, span_warning("[door.obj_integrity]"))
-			user.visible_message(span_notice("[user] starts concentrate on [door.name]."),
-			span_notice("I start concentrate on [door.name]."))
+			user.visible_message(span_notice("[user] starts concentrating on [door.name]."),
+			span_notice("I start concentrating on [door.name]."))
 			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 			if(!do_after(user, (150 / skill), target = door))
 				return
@@ -692,8 +696,8 @@ var/global/list/anvil_recipe_prices[][]
 			var/obj/structure/roguewindow/window = S
 			if(window.obj_integrity < window.max_integrity)
 				to_chat(user, span_warning("[window.obj_integrity]"))	
-				user.visible_message(span_notice("[user] starts concentrate on [window.name]."),
-				span_notice("I start concentrate on [window.name]."))
+				user.visible_message(span_notice("[user] starts concentrating on [window.name]."),
+				span_notice("I start concentrating on [window.name]."))
 				playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 				if(!do_after(user, (150 / skill), target = window))
 					return

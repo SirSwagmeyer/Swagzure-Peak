@@ -1,6 +1,5 @@
 /mob/living/proc/update_stamina() //update hud and regen after last_fatigued delay on taking
-	max_stamina = max_energy / 10
-
+	calculate_stamina()
 	var/delay = 20
 	if(HAS_TRAIT(src, TRAIT_APRICITY))
 		switch(GLOB.tod)
@@ -8,9 +7,18 @@
 				delay = 13
 			if("night", "dusk")
 				delay = 16
-	if(world.time > last_fatigued + delay) //regen fatigue
+	if(world.time > last_fatigued + delay) //regen fatigue 
 		var/added = energy / max_energy
 		added = round(-10 + (added * - 40))
+	
+		if(ishuman(src))
+			var/mob/living/carbon/human/H = src
+			if(H.breath_remaining <= 0) added = 0 
+			
+			else if((H.is_swimming || H.is_underwater) && !H.resting && H.stat == CONSCIOUS)
+				added = 0 
+		
+		
 		if(src.climbing) // no stam regen while climbing guh
 			added = 0
 		if(HAS_TRAIT(src, TRAIT_MISSING_NOSE))
@@ -24,18 +32,27 @@
 
 	update_health_hud()
 
+/mob/living/proc/calculate_stamina()
+	max_stamina = max_energy / 10
+
 /mob/living/proc/update_energy()
-	var/athletics_skill = 0
-	athletics_skill = get_skill_level(/datum/skill/misc/athletics)
-	max_energy = (STAWIL + (athletics_skill/2 ) ) * 100
+	calculate_energy()
 	if(cmode)
 		if(!HAS_TRAIT(src, TRAIT_BREADY))
 			energy_add(-2)
 	if(HAS_TRAIT(src, TRAIT_INFINITE_ENERGY))
 		energy = max_energy
 	if(HAS_TRAIT(src, TRAIT_BREADY))
-		energy_add(4) // Battle Ready now gives you a small amount of regeneration.
-		// This generally cover most reasonable in combat usage.
+		if(src.mind)
+			energy_add(4) // Battle Ready now gives you a small amount of regeneration.
+			// This generally cover most reasonable in combat usage.
+		else
+			energy_add(2) // Halve effectiveness for NPCs.
+
+/mob/living/proc/calculate_energy()
+	var/athletics_skill = 0
+	athletics_skill = get_skill_level(/datum/skill/misc/athletics)
+	max_energy = (STAWIL + (athletics_skill/2 ) ) * 100
 
 /mob/proc/energy_add(added as num)
 	return
@@ -45,6 +62,9 @@
 		return TRUE
 	if(HAS_TRAIT(src, TRAIT_INFINITE_ENERGY))
 		return TRUE
+	if(m_intent == MOVE_INTENT_RUN && (mobility_flags & MOBILITY_STAND))
+		if(isnull(buckled))
+			mind && mind.add_sleep_experience(/datum/skill/misc/athletics, (STAINT*0.02))
 	energy += added
 	if(energy > max_energy)
 		energy = max_energy
@@ -162,6 +182,18 @@
 			emote("fatigue", forced = force_emote)
 		else
 			emote(emote_override, forced = force_emote)
+
+		var/turf/T = get_turf(src)
+		if(istype(T, /turf/open/water/transparent))
+			var/turf/below = GET_TURF_BELOW(T)
+			if(below && istype(below, /turf/open/water/transparent))
+				visible_message(span_danger("[src] loses all stamina and sinks into the depths!"))
+				forceMove(below)
+				set_resting(TRUE)
+			else
+				
+				set_resting(TRUE)
+
 		blur_eyes(2)
 		last_fatigued = world.time + 3 SECONDS //extra time before fatigue regen sets in
 		stop_attack()

@@ -601,7 +601,7 @@
 	if(rogue_sneaking || reset) //If sneaking, check if they should be revealed
 		var/should_reveal = FALSE
 		// are we crit, sleeping, been recently discovered, have no turf, force-revealed or not in sneak intent? then we should be revealed, end of.
-		if((stat > SOFT_CRIT) || IsSleeping() || (world.time < mob_timers[MT_FOUNDSNEAK] + 30 SECONDS) || !T || reset || (m_intent != MOVE_INTENT_SNEAK))
+		if((stat > SOFT_CRIT) || IsSleeping() || (world.time < mob_timers[MT_FOUNDSNEAK] + 10 SECONDS) || !T || reset || (m_intent != MOVE_INTENT_SNEAK))
 			should_reveal = TRUE
 
 		// are we in a area of light that should reveal us?
@@ -619,6 +619,8 @@
 
 	else //not currently sneaking, check if we can sneak
 		if (m_intent == MOVE_INTENT_SNEAK) // we were not sneaking and are now trying to.
+			if(world.time < mob_timers[MT_FOUNDSNEAK] + 10 SECONDS) // recently discovered or broke stealth, can't re-sneak yet
+				return
 			light_amount = T.get_lumcount()  // as above, this is moderately expensive, so only check it if we need to.
 			if(light_amount < light_threshold)
 				animate(src, alpha = 0, time = used_time)
@@ -678,6 +680,7 @@
 					if(ishuman(L))
 						var/mob/living/carbon/human/H = L
 						if(!H.check_armor_skill() || H.legcuffed)
+							to_chat(H, span_warning("My armor is too heavy to run effectively!"))
 							return
 
 				m_intent = MOVE_INTENT_RUN

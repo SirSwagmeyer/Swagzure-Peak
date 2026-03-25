@@ -7,7 +7,7 @@
 	sound = 'sound/magic/vlightning.ogg'
 	range = 8
 	projectile_type = /obj/projectile/magic/bloodsteal
-	releasedrain = 30
+	releasedrain = SPELLCOST_MAJOR_PROJECTILE
 	chargedrain = 1
 	chargetime = 25
 	recharge_time = 20 SECONDS
@@ -38,6 +38,7 @@
 	flag = "magic"
 	light_color = "#e74141"
 	light_outer_range = 7
+
 
 /obj/projectile/magic/bloodsteal/on_hit(target)
 	. = ..()

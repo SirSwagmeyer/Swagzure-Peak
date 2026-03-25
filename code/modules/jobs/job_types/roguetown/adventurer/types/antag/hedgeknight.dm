@@ -2,7 +2,7 @@
 	name = "Hedge Knight"
 	tutorial = "A noble fallen from grace, your tarnished armor sits upon your shoulders as a heavy reminder of the life you've lost. Take back what is rightfully yours."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_NO_CONSTRUCT
+	allowed_races = RACES_SHUNNED_UP
 	outfit = /datum/outfit/job/roguetown/bandit/hedgeknight
 	category_tags = list(CTAG_BANDIT)
 	maximum_possible_slots = 1 //Boss, you killed a squire. AMAZING this right here is why you are the best Boss!
@@ -58,7 +58,7 @@
 	H.set_blindness(0)
 	switch(weapon_choice)//Knight Captain equivalent pmuch
 		if("Flameberge")
-			beltr = /obj/item/rogueweapon/greatsword/grenz/flamberge
+			r_hand = /obj/item/rogueweapon/greatsword/grenz/flamberge
 			backl = /obj/item/rogueweapon/scabbard/gwstrap
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
 		if("Polemace")
@@ -72,9 +72,3 @@
 			r_hand = /obj/item/rogueweapon/eaglebeak
 			backl = /obj/item/rogueweapon/scabbard/gwstrap
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 5, TRUE) //This will NOT have any far reaching consequences
-
-	if(!istype(H.patron, /datum/patron/inhumen/matthios))
-		var/inputty = input(H, "Would you like to change your patron to Matthios?", "The Transactor calls", "No") as anything in list("Yes", "No")
-		if(inputty == "Yes")
-			to_chat(H, span_warning("My former deity has abandoned me.. Matthios is my new master."))
-			H.set_patron(/datum/patron/inhumen/matthios)
