@@ -524,7 +524,6 @@
 	force_wielded = 30
 	minstr = 7
 	wdefense = 5 
-	wbalance = WBALANCE_SWIFT
 	resistance_flags = FIRE_PROOF
 	icon_state = "psyflangedmacelegacy"
 	is_silver = TRUE
@@ -639,6 +638,7 @@
 	//dropshrink = 0.75
 	wlength = WLENGTH_LONG
 	w_class = WEIGHT_CLASS_BULKY
+	slot_flags = ITEM_SLOT_BACK
 	associated_skill = /datum/skill/combat/maces
 	smeltresult = /obj/item/ash
 	swingsound = BLUNTWOOSH_LARGE
@@ -679,6 +679,7 @@
 	icon_state = "polemace"
 	force = 15
 	force_wielded = 35
+	slot_flags = null
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 	wdefense_wbonus = 5
