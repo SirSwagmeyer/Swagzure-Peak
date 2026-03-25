@@ -679,7 +679,7 @@
 	icon_state = "polemace"
 	force = 15
 	force_wielded = 35
-	slot_flags = null
+	slot_flags = ITEM_SLOT_BACK
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 	wdefense_wbonus = 5
