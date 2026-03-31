@@ -78,7 +78,7 @@
 // HEAVY
 #define ARMOR_INT_CHEST_PLATE_ANTAG 700
 #define ARMOR_INT_CHEST_PLATE_BLACKSTEEL 600
-#define ARMOR_INT_CHEST_PLATE_BRONZE 300
+#define ARMOR_INT_CHEST_PLATE_BRONZE 400 //Harder than iron, weaker than steel.
 #define ARMOR_INT_CHEST_PLATE_STEEL 500
 #define ARMOR_INT_CHEST_PLATE_STEELLIGHT 450
 #define ARMOR_INT_CHEST_PLATE_PSYDON 400 // You get free training, less int
@@ -108,7 +108,7 @@
 #define ARMOR_INT_LEG_BLACKSTEEL 500
 #define ARMOR_INT_LEG_STEEL_PLATE 400
 #define ARMOR_INT_LEG_IRON_PLATE 300
-#define ARMOR_INT_LEG_BRONZE 250
+#define ARMOR_INT_LEG_BRONZE 300
 #define ARMOR_INT_LEG_DECREPIT_PLATE 200
 #define ARMOR_INT_LEG_STEEL_CHAIN 300
 #define ARMOR_INT_LEG_BRIGANDINE 250
@@ -158,8 +158,8 @@
 // BRIGANDINE — All brigandine parts. Better blunt and arrow padding than plate, but sword stabs and above will pen. Best light armor gets for melee. Medium/heavy classes should still wear maille under it!
 #define ARMOR_BRIGANDINE list("blunt" = DR_HEAVY, "slash" = DBLOCK_HEAVY, "stab" = DBLOCK_MEDIUM, "piercing" = DBLOCK_HEAVY, "fire" = DR_NONE, "acid" = DR_NONE)
 
-// BRONZE - All bronze armor. Not particularly good against any specialized AP intent, but uniquely resistant to fire damage from mage spells and the like. THIS SHOULD BE USING IRON INTEGRITY.
-#define ARMOR_BRONZE list("blunt" = DR_MEDIUM, "slash" = DBLOCK_MEDIUM, "stab" = DBLOCK_MEDIUM, "piercing" = DBLOCK_MEDIUM, "fire" = DR_LIGHT, "acid" = DR_LIGHT)
+// BRONZE - All bronze armor. Not particularly good against blunt/slash, but uniquely resistant to fire damage from mage spells and the like. THIS SHOULD BE USING IRON INTEGRITY.
+#define ARMOR_BRONZE list("blunt" = DR_MEDIUM, "slash" = DBLOCK_MEDIUM, "stab" = DBLOCK_HEAVY, "piercing" = DBLOCK_MEDIUM, "fire" = DR_MEDIUM, "acid" = DR_LIGHT)
 
 // MAILLE — Chainmail. Medium: Plate level protection but weak vs Bodkin (100% through)
 #define ARMOR_MAILLE list("blunt" = DR_MEDIUM, "slash" = DBLOCK_HEAVY, "stab" = DBLOCK_HEAVY, "piercing" = DBLOCK_LIGHT, "fire" = DR_NONE, "acid" = DR_NONE)
