@@ -11,7 +11,10 @@
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/frei_fencer.ogg'
 	traits_applied = list(TRAIT_BADTRAINER, TRAIT_INTELLECTUAL, TRAIT_LONGSWORDSMAN, TRAIT_FENCERDEXTERITY)
-	virtue_restrictions = list(/datum/virtue/combat/dualwielder)
+	virtue_restrictions = list(
+		/datum/virtue/combat/dualwielder, 
+		/datum/virtue/combat/combat_virtue, //They do not need shield skills or anything in here
+		)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_PER = 3,
@@ -140,7 +143,10 @@
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/frei_sabre.ogg'
 	traits_applied = list(TRAIT_BADTRAINER, TRAIT_INTELLECTUAL, TRAIT_FENCERDEXTERITY, TRAIT_SABRIST)
-	virtue_restrictions = list(/datum/virtue/combat/dualwielder)
+	virtue_restrictions = list(
+		/datum/virtue/combat/dualwielder, 
+		/datum/virtue/combat/combat_virtue, //They do not need shield skills or anything in here
+		)
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_PER = 3,
