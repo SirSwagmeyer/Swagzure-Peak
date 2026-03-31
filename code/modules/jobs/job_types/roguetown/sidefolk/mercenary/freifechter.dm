@@ -11,10 +11,6 @@
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/frei_fencer.ogg'
 	traits_applied = list(TRAIT_BADTRAINER, TRAIT_INTELLECTUAL, TRAIT_LONGSWORDSMAN, TRAIT_FENCERDEXTERITY)
-	virtue_restrictions = list(
-		/datum/virtue/combat/dualwielder, 
-		/datum/virtue/combat/combat_virtue, //They do not need shield skills or anything in here
-		)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_PER = 3,
@@ -38,6 +34,8 @@
 	l_hand = /obj/item/rogueweapon/scabbard/sword
 	var/weapons = list("Etruscan Longsword", "Reformist Longsword")
 	if(H.mind)
+		if(HAS_TRAIT(H, TRAIT_DUALWIELDER))
+			REMOVE_TRAIT(H, TRAIT_DUALWIELDER, null)
 		var/weapon_choice = input(H, "Draw a sword.", "As presented to me by Master Oktawiusz...") as anything in weapons
 		switch(weapon_choice)
 			if("Etruscan Longsword")		//A longsword with a compound ricasso. Accompanied by a traditional flip knife.
@@ -143,10 +141,6 @@
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/frei_sabre.ogg'
 	traits_applied = list(TRAIT_BADTRAINER, TRAIT_INTELLECTUAL, TRAIT_FENCERDEXTERITY, TRAIT_SABRIST)
-	virtue_restrictions = list(
-		/datum/virtue/combat/dualwielder, 
-		/datum/virtue/combat/combat_virtue, //They do not need shield skills or anything in here
-		)
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_PER = 3,
@@ -168,6 +162,8 @@
 	..()
 	to_chat(H, span_warning("You are a master in the arts of the sabre. Wielder of Aavnr's sword by excellence, you needn't anything else. Your professionally made sabre facilitates moves from traditional Aavnic fencing treatises."))
 	if(H.mind)
+		if(HAS_TRAIT(H, TRAIT_DUALWIELDER))
+			REMOVE_TRAIT(H, TRAIT_DUALWIELDER, null)
 		var/armors = list(
 		"Fencing Jacket"	= /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter,
 		"Fencing Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer
